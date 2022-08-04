@@ -258,11 +258,11 @@
                       <form action="views/scripts/nuevousuario.php" method="post">
                           <div class="mb-3">
                               <label for="Nombre" class="form-label">Nombre</label>
-                              <input type="text" class="form-control" id="exampleInputEmail1" required name="nom" placeholder="Ej: Jesus">
+                              <input type="text" class="form-control"  required name="nom" placeholder="Ej: Jesus">
                           </div>
                           <div class="mb-3">
                               <label for="Apellidos" class="form-label">Apellidos</label>
-                              <input type="text" class="form-control" id="exampleInputEmail1" required name="ape" placeholder="Ej: Tlazola">
+                              <input type="text" class="form-control"  required name="ape" placeholder="Ej: Tlazola">
                           </div>
                           <div class="mb-3">
                               <label for="Correo" class="form-label">Correo</label>
@@ -270,7 +270,7 @@
                           </div>
                           <div class="mb-3">
                               <label for="pass" class="form-label">Contraseña</label>
-                              <input type="password" class="form-control" id="exampleInputPassword1" required name="con" placeholder="Ej: contraseña">
+                              <input type="password" class="form-control" required name="con" placeholder="Ej: contraseña">
                           </div>
                   </div>
                   <div class="modal-footer">

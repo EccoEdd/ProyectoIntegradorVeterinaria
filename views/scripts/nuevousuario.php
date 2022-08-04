@@ -19,17 +19,22 @@
     $insertu = new inseruser();
 
     extract($_POST);
-    $nper = "   insert into persona(nombre, apellido, correo, contrasena)
+    try{
+        $nper = "   insert into persona(nombre, apellido, correo, contrasena)
                 values('$nom','$ape','$cor','$con')";
-    $insertp->inseruser($nper);
+        $insertp->inseruser($nper);
 
 
-    $nu   = "insert into usuarios(persona) select p_id from persona where persona.nombre='$nom' and persona.apellido='$ape'";
-    $insertu->inseruser($nu);
+        $nu   = "insert into usuarios(persona) select p_id from persona where persona.nombre='$nom' and persona.apellido='$ape'";
+        $insertu->inseruser($nu);
 
-    echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Gracias por Registrarte...</h1>";
+        echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Gracias por Registrarte...</h1>";
 
-    header("refresh:3;../../index.php");
+        header("refresh:3;../../index.php");
+    }catch (PDOException $e){
+        echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Correo ya existente</h1>";
+        header("refresh:3;../../index.php");
+    }
     ?>
 </body>
 </html>
