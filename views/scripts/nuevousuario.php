@@ -28,8 +28,8 @@
     $nu   = "insert into usuarios(persona) select p_id from persona where persona.nombre='$nom' and persona.apellido='$ape'";
     $insertu->inseruser($nu);
 
-    echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Gracias por Registrarte...</h1>//probando";
-    echo "Probando";
+    echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Gracias por Registrarte...</h1>";
+    
     header("refresh:3;../../index.php");
     ?>
 </body>
