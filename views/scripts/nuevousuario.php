@@ -29,7 +29,7 @@
     $insertu->inseruser($nu);
 
     echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Gracias por Registrarte...</h1>";
-    
+
     header("refresh:3;../../index.php");
     ?>
 </body>
