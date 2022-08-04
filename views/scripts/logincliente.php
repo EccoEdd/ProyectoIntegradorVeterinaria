@@ -16,13 +16,10 @@ use Vet\query\select;
 require_once("../../vendor/autoload.php");
 
 
-$usuario = $_POST('correo');
-$password = $_POST('contrasena');
-
 
 echo "<div  class='rabbit'></div><div class='clouds'></div>";
 
-header("refresh:3;../cliente.php");
+header("refresh:2;../cliente.php");
 ?>
 </body>
 </html>

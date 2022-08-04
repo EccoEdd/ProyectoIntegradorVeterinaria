@@ -13,7 +13,6 @@
 <body>
     <?php
     use Vet\query\inseruser;
-    use Vet\query\select;
     require_once("../../vendor/autoload.php");
 
     $insertp = new inseruser();
