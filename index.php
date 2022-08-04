@@ -197,11 +197,11 @@
                       <form action="/views/scripts" method="post">
                           <div class="mb-3">
                               <label for="correo" class="form-label">Correo de Identificacion</label>
-                              <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="correo" placeholder="Ej: ejemplo@gmail.com">
+                              <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="usuario" placeholder="Ej: ejemplo@gmail.com">
                           </div>
                           <div class="mb-3">
                               <label for="contraseña" class="form-label">Contraseña</label>
-                              <input type="password" class="form-control" id="exampleInputPassword1" required name="pass" placeholder="Ej: contraseña">
+                              <input type="password" class="form-control" id="exampleInputPassword1" required name="contrasena" placeholder="Ej: contraseña">
                           </div>
                           <div class="container">
                               <div class="col-5 offset-3">
