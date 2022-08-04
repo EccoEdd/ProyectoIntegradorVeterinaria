@@ -11,15 +11,15 @@
     <title>RegVet</title>
 </head>
 <body>
-<?php
-use Vet\query\select;
-require_once("../../vendor/autoload.php");
+    <?php
+    use Vet\query\select;
+    require_once("../../vendor/autoload.php");
 
+    
 
+    echo "<div  class='rabbit'></div><div class='clouds'></div>";
 
-echo "<div  class='rabbit'></div><div class='clouds'></div>";
-
-header("refresh:2;../cliente.php");
-?>
+    header("refresh:2;../cliente.php");
+    ?>
 </body>
 </html>
