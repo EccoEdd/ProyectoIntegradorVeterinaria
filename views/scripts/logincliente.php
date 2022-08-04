@@ -12,21 +12,7 @@
 </head>
 <body>
 <?php
-use Vet\query\inseruser;
-use Vet\query\select;
-require_once("../../vendor/autoload.php");
 
-$insertp = new inseruser();
-$insertu = new inseruser();
-
-extract($_POST);
-$nper = "   insert into persona(nombre, apellido, correo, contrasena)
-                values('$nom','$ape','$cor','$con')";
-$insertp->inseruser($nper);
-
-
-$nu   = "insert into usuarios(persona) select p_id from persona where persona.nombre='$nom' and persona.apellido='$ape'";
-$insertu->inseruser($nu);
 
 echo "<div  class='rabbit'></div><div class='clouds'></div>";
 
