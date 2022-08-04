@@ -194,7 +194,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                      <form action="" method="post">
+                      <form action="/views/scripts" method="post">
                           <div class="mb-3">
                               <label for="correo" class="form-label">Correo de Identificacion</label>
                               <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="correo" placeholder="Ej: ejemplo@gmail.com">
