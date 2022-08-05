@@ -1,0 +1,9 @@
+#Veterinaria
+git clone https://github.com/EccoEdd/ProyectoIntegradorVeterinaria.git 
+git add .
+git commit -m ""
+git push origin tu_rama
+git pull origin develop
+git checkout tu_rama
+git config --global user.email "tu@correo"
+git config --global user.name  "tunombre"
