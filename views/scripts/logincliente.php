@@ -22,7 +22,7 @@
     $_SESSION['usuario']=$usuario;
 
     $query = new select();
-    $cadena ="select * from persona where correo='$usuario' and contra='$contrasena'";
+    $cadena ="select * from persona where correo='$usuario' and contrasena='$contrasena'";
     $datos = $query->seleccionar($cadena);
 
     //echo $datos->rowCount();
