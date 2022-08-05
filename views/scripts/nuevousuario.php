@@ -20,7 +20,6 @@
 
     extract($_POST);
     $password = password_hash($_POST['con'], PASSWORD_BCRYPT);
-    //try{
         $nper = "   insert into persona(nombre, apellido, correo, contrasena,contra)
                 values('$nom','$ape','$cor', 'nope','$password')";
 
@@ -28,14 +27,9 @@
 
         $nu   = "insert into usuarios(persona) select p_id from persona where persona.nombre='$nom' and persona.apellido='$ape'";
         $insertu->inseruser($nu);
-
-        echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Gracias por Registrarte...</h1>";
-
+        echo "<div  class='rabbit'></div><div class='clouds'></div>";
         header("refresh:3;../../index.php");
-    //}catch (PDOException $e){
-    //    echo "<div  class='rabbit'></div><div class='clouds'></div><h1>Intentelo de nuevo</h1>";
-    //    header("refresh:4;../../index.php");
-    //}
+
     ?>
 </body>
 </html>

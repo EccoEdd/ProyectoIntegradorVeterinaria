@@ -20,7 +20,7 @@
     $cadena ="select * from persona where correo='$name' and contrasena='$contrasena'";
     $query->seleccionar($cadena);
 
-    echo "<div  class='rabbit'></div><div class='clouds'></div>";
+    //echo "<div  class='rabbit'></div><div class='clouds'></div>";
 
     header("refresh:2;../cliente.php");
     ?>
