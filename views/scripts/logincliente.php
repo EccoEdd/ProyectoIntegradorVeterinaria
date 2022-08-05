@@ -12,17 +12,41 @@
 </head>
 <body>
     <?php
+    session_start();
     use Vet\query\select;
     require_once("../../vendor/autoload.php");
 
-    extract($_POST);
+    $usuario = $_POST['usuario'];
+    $contrasena = $_POST['contrasena'];
+
+    $_SESSION['usuario']=$usuario;
+
     $query = new select();
-    $cadena ="select * from persona where correo='$name' and contrasena='$contrasena'";
-    $query->seleccionar($cadena);
+    $cadena ="select * from persona where correo='$usuario' and contra='$contrasena'";
+    $datos = $query->seleccionar($cadena);
 
-    //echo "<div  class='rabbit'></div><div class='clouds'></div>";
+    echo $datos->rowCount();
 
-    header("refresh:2;../cliente.php");
+    //$filas=
+    //if ($datos->rowCount()){
+    //    return true;
+    //}
+
+    //if ($sql = $datos->fetch_object()){
+    //    header("refresh:3;../cliente.php");
+    //}else{
+    //    echo "<h1>Error en inicio de Secion</h1>";
+    //};
+
+
+
+    //echo $usuario."<br>";
+    //echo $contrasena;
+
+
+    echo "<div  class='rabbit'></div><div class='clouds'></div>";
+
+
     ?>
 </body>
 </html>
