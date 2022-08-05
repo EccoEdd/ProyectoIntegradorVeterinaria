@@ -15,7 +15,10 @@
     use Vet\query\select;
     require_once("../../vendor/autoload.php");
 
-    
+    extract($_POST);
+    $query = new select();
+    $cadena ="select * from persona where correo='$name' and contrasena='$contrasena'";
+    $query->seleccionar($cadena);
 
     echo "<div  class='rabbit'></div><div class='clouds'></div>";
 
