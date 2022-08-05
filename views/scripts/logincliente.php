@@ -25,7 +25,7 @@
     $cadena ="select * from persona where correo='$usuario' and contra='$contrasena'";
     $datos = $query->seleccionar($cadena);
 
-    echo $datos->rowCount();
+    //echo $datos->rowCount();
 
     //$filas=
     //if ($datos->rowCount()){

@@ -19,9 +19,9 @@
     $insertu = new inseruser();
 
     extract($_POST);
-    $password = password_hash($_POST['con'], PASSWORD_BCRYPT);
-        $nper = "   insert into persona(nombre, apellido, correo, contrasena,contra)
-                values('$nom','$ape','$cor', 'nope','$password')";
+    $password = password_hash($_POST['con'], PASSWORD_DEFAULT);
+        $nper = "   insert into persona(nombre, apellido, correo, contrasena)
+                values('$nom','$ape','$cor','$password')";
 
         $insertp->inseruser($nper);
 
