@@ -201,7 +201,7 @@ CREATE TABLE `mascotas` (
   `color` varchar(25) NOT NULL,
   `raza` varchar(30) NOT NULL,
   `rasgos` varchar(50) DEFAULT NULL,
-  `sexo` char(1) DEFAULT NULL,
+  `sexo` char(6) DEFAULT NULL,
   `usuario` int(11) DEFAULT NULL,
   `especie` int(11) DEFAULT NULL,
   PRIMARY KEY (`m_id`),
@@ -218,7 +218,7 @@ CREATE TABLE `mascotas` (
 
 LOCK TABLES `mascotas` WRITE;
 /*!40000 ALTER TABLE `mascotas` DISABLE KEYS */;
-INSERT INTO `mascotas` VALUES (1000,'Westleigh','Yellow','sanvernardo','Synchronised user-facing matrix','f',1005,1000),(1001,'See','Turquoise','doverman','Distributed empowering concept','m',1006,1000),(1002,'Ossie','Fuscia','siames','Inverse bandwidth-monitored application','m',1007,1001),(1003,'Nils','Puce','sanvernardo','Team-oriented zero defect budgetary management','f',1008,1000),(1004,'Keary','Aquamarine','siames','Face to face discrete access','f',1009,1001),(1005,'Ibrahim','Orange','siames','De-engineered zero tolerance superstructure','m',1010,1001),(1006,'Westbrook','Purple','labrador','Up-sized regional collaboration','f',1011,1000),(1007,'Julina','Yellow','pug','Public-key methodical service-desk','f',1012,1000),(1008,'Isaiah','Puce','mestizo','Balanced asynchronous task-force','m',1013,1001),(1009,'Gago','negro,cafe,blanco','sanvernardo','Synchronised user-facing matrix','m',1004,1000),(1010,'Daisy','negro,cafe,blanco','doverman','Distributed empowering concept','f',1003,1000),(1011,'Luna','cafe claro','siames','Inverse bandwidth-monitored application','f',1002,1001),(1012,'Joaquin','cafe','sanvernardo','Team-oriented zero defect budgetary management','m',1001,1000),(1013,'Negra','negro','siames','Face to face discrete access','f',1000,1001);
+INSERT INTO `mascotas` VALUES (1000,'Westleigh','Yellow','sanvernardo','Synchronised user-facing matrix','hembra',1005,1000),(1001,'See','Turquoise','doverman','Distributed empowering concept','macho',1006,1000),(1002,'Ossie','Fuscia','siames','Inverse bandwidth-monitored application','macho',1007,1001),(1003,'Nils','Puce','sanvernardo','Team-oriented zero defect budgetary management','hembra',1008,1000),(1004,'Keary','Aquamarine','siames','Face to face discrete access','hembra',1009,1001),(1005,'Ibrahim','Orange','siames','De-engineered zero tolerance superstructure','macho',1010,1001),(1006,'Westbrook','Purple','labrador','Up-sized regional collaboration','hembra',1011,1000),(1007,'Julina','Yellow','pug','Public-key methodical service-desk','hembra',1012,1000),(1008,'Isaiah','Puce','mestizo','Balanced asynchronous task-force','macho',1013,1001),(1009,'Gago','negro,cafe,blanco','sanvernardo','Synchronised user-facing matrix','macho',1004,1000),(1010,'Daisy','negro,cafe,blanco','doverman','Distributed empowering concept','hembra',1003,1000),(1011,'Luna','cafe claro','siames','Inverse bandwidth-monitored application','hembra',1002,1001),(1012,'Joaquin','cafe','sanvernardo','Team-oriented zero defect budgetary management','macho',1001,1000),(1013,'Negra','negro','siames','Face to face discrete access','hembra',1000,1001);
 /*!40000 ALTER TABLE `mascotas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,4 +395,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-05 13:50:04
+-- Dump completed on 2022-08-07 17:19:25
