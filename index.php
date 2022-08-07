@@ -277,6 +277,7 @@
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quiza luego</button>
                       <button type="submit" class="btn btn-primary">REGISTRAME!</button>
                   </div>
+
                   </form>
               </div>
           </div>
