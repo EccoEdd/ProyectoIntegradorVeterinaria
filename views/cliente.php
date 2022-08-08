@@ -52,7 +52,7 @@
     require_once("../vendor/autoload.php");
 
     $query = new select();
-    $cadena = "select mscts.nombre, mscts.color,mscts.sexo,espcs.especie, mscts.m_id
+    $cadena = "select mscts.nombre, mscts.color,mscts.sexo,espcs.especie, mscts.m_id, mscts.raza
     from persona as prsn inner join usuarios as usr on prsn.p_id=usr.persona inner join mascotas as mscts on mscts.usuario=usr.u_id inner join especies as espcs
     on mscts.especie=espcs.e_id where prsn.correo = 'ibeahana@digg.com'";
     $reg = $query->seleccionar($cadena);
@@ -67,12 +67,13 @@
                 <h5 class='card-title'>Datos</h5>
                 <p class='card-text'>Color: $dato->color</p>
                 <p class='card-text'>Sexo: $dato->sexo</p>
-                <p class='card-text'>Raza: $dato->especie</p>
+                <p class='card-text'>Especie: $dato->especie</p>
+                <p class='card-text'>Raza: $dato->raza</p>
             </div>
             <div class='card-footer'>
                 <form action='' method='post'>
                 <input type='text' class='visually-hidden' required name='m_id' value='$dato->m_id'>
-                <a href='#' class='btn btn-primary btn-lg'>Historial</a>
+                <button type='submit' class='btn btn-primary btn-lg'>Historial</button>
                 </form>
             </div>
         </div><br>
@@ -127,13 +128,6 @@
             </form>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </div>
-    </form>
-</div>
-</div>
 </div>
 <!--Perfil-->
 <div class="modal fade" tabindex="-1" id="perfil">
@@ -146,45 +140,84 @@
 
             <div class="modal-body">
                 <?php
-                echo "<h2>Nombre de Usuario</h2>";
+                $cadena1 = "select nombre, apellido, correo from persona where correo = 'ibeahana@digg.com'";
+                $reg1 = $query->seleccionar($cadena1);
+                foreach ($reg1 as $item){
+                echo "<h4>$item->nombre $item->apellido</h4>";
+                echo "<p>Correo: $item->correo</p>";
+                }
+                ?>
+                <button type="submit" class="btn btn-dark blanco" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#Vertele">
+                    Ver mis numeros de contacto
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info blanco" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#agregartelefono">
+                    Agregar Telefono
+                </button>
+                <button type="submit" class="btn btn-danger blanco" data-bs-toggle="modal" data-bs-target="#">
+                    Cerrar Sesion
+                </button>
+            </div>
 
+        </div>
+    </div>
+</div>
+<!--Numeros de contacto-->
+<div class="modal fade" tabindex="-1" id="Vertele">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                echo "<h5>Telefonos de Contacto</h5>";
+                $cadena2 = "select numero, descripcion from contacto as c join persona as p on c.persona = p.p_id where p.correo = 'ibeahana@digg.com'";
+                $reg2 = $query->seleccionar($cadena2);
+                foreach ($reg2 as $numero){
+                    echo "<p><b>Numero:</b> $numero->numero <b>Descripcion:</b> $numero->descripcion</p>";
+                }
                 ?>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#agregartelefono">
-                    <a class="nav-link blanco" href="#">Agregar Telefono</a>
-                </button>
-                <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#">
-                    <a class="nav-link blanco" href="#">Cerrar Sesion</a>
-                </button>
             </div>
-
         </div>
     </div>
-    <!--Agregar telefono-->
-    <div class="modal fade" tabindex="-1" id="agregartelefono">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar Telefono</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post">
-                        <div class="mb-3">
-                            <label for="Telefono" class="form-label">Telefono</label>
-                            <input type="text" class="form-control"  required name="tel" placeholder="Telefono">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
+</div>
+
+<!--Agregar telefono-->
+<div class="modal fade" tabindex="-1" id="agregartelefono">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Telefono</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="scripts/telefono.php" method="post">
+                    <div class="mb-3">
+                        <label for="tel" class="form-label">Telefono</label>
+                        <input type="number" class="form-control"  required name="tel" placeholder="Ej: 1112223334">
+                        <label for="Descripcion" class="form-label">Descripcion</label>
+                        <input type="text" class="form-control"  required name="des" placeholder="Ej: Fijo">
+                        <?php
+                        $query = new select();
+                        $iduser = "select p_id from persona where correo = 'ibeahana@digg.com'";
+                        $idu = $query->seleccionar($iduser);
+                        foreach ($idu as $id){
+                            echo "<input type='number' class='visually-hidden' value='$id->p_id' name='id'>";
+                        }
+                        ?>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Guardar</button>
+            </div>
                 </form>
-            </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>
