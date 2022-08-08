@@ -46,7 +46,6 @@
 
     echo "<div  class='rabbit'></div><div class='clouds'></div>";
 
-
     ?>
 </body>
 </html>

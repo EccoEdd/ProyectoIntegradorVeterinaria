@@ -93,32 +93,48 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="views/scripts/nuevousuario.php" method="post">
+                <form action="scripts/nuevamascota.php" method="post">
                     <div class="mb-3">
-                        <label for="Nombre" class="form-label">Nombre</label>
+                        <label for="nom" class="form-label">Nombre</label>
                         <input type="text" class="form-control"  required name="nom" placeholder="Ej: Estrella">
                     </div>
                     <div class="mb-3">
-                        <label for="Apellidos" class="form-label">Color</label>
+                        <label for="color" class="form-label">Color</label>
                         <input type="text" class="form-control"  required name="color" placeholder="Ej: Blanco">
                     </div>
 
                     <div class="mb-3">
-                        <label for="pass" class="form-label">Raza</label>
-                        <input type="text" class="form-control" required name="raza" placeholder="Ej: ">
+                        <label for="raza" class="form-label">Raza</label>
+                        <input type="text" class="form-control" required name="raza" placeholder="Ej:Chihuahua">
                     </div>
                     <div class="mb-3">
-                        <label for="Apellidos" class="form-label">Rasgos</label>
-                        <input type="text" class="form-control"  required name="rasgos" placeholder="Ej: ">
+                        <label for="rasgos" class="form-label">Rasgos</label>
+                        <input type="text" class="form-control"  required name="rasgos" placeholder="Ej: Tiene un tic nervioso">
                     </div>
                     <div class="mb-3">
                         Sexo <br>
-                        <input type="radio" class="form-check-input" name="sexo" value="h">Macho
-                        <input type="radio" class="form-check-input" name="sexo" value="m">Hembra<br>
+                        <input type="radio" class="form-check-input" name="sexo" value="Macho">Macho
+                        <input type="radio" class="form-check-input" name="sexo" value="Hembra">Hembra<br>
                     </div>
                     <div class="mb-3">
-                        <label for="Apellidos" class="form-label">Especie</label>
-                        <input type="text" class="form-control"  required name="color" placeholder="Ej: ">
+                        <?php
+                        $query = new select();
+                        $cadena3 = "select e_id, especie from especies";
+                        $cadena4 = "select u_id from usuarios as u join persona as p on u.persona = p.p_id where p.correo = 'ibeahana@digg.com'";
+                        $reg = $query->seleccionar($cadena3);
+                        $reg3 = $query->seleccionar($cadena4);
+                        echo "<div class='mb-3'>
+                            <label class='control-label'>Especie</label>
+                            <select name='especie' class='form-select'>
+                        ";
+                        foreach ($reg as $value) {
+                            echo"<option value='$value->e_id'>$value->especie</option>";
+                        }
+                        echo "</select></div>";
+                        foreach ($reg3 as $u){
+                            echo"<input type='number' class='visually-hidden'  required name='usuario' value='$u->u_id'>";
+                        }
+                        ?>
                     </div>
             </div>
             <div class="modal-footer">
