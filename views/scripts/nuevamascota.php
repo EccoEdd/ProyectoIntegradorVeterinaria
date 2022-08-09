@@ -14,12 +14,11 @@
     <?php
         use Vet\query\inseruser;
         require_once("../../vendor/autoload.php");
-        extract($_POST);
 
         extract($_POST);
         $insertn = new inseruser();
 
-        $nper = "insert into mascotas(nombre, color, raza, rasgos, sexo, usuario, especie) values('$nom', '$color', '$raza', '$rasgos', '$sexo', '$usuario', '$especie')";
+        $nper = "insert into mascotas(nombre, color, raza, rasgos, sexo, usuario, especie) values('$nom', '$color', '$raza', '$rasgos', '$sexo','$usuario','$especie')";
         $insertn->inseruser($nper);
 
 
