@@ -16,7 +16,7 @@
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg bg-light ">
             <div class="offset-1">
-                <img src="../images/icon.png" alt="" width="65px">
+                <img src="../images/iconclie.png" alt="" width="65px">
             </div>
             <div class="col-md-5">
                 <h5>Registro Veterinario: VetExCola & VetHuellitas</h5>
@@ -25,13 +25,13 @@
                 <div class="container" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item sm-12 lg-6">
-                            <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#agregarmascota">
-                                <a class="nav-link" href="#">Agregar Mascota</a>
+                            <button type="submit" class="btn col-10" data-bs-toggle="modal" data-bs-target="#agregarmascota">
+                                <a class="nav-link" href="#">Quiero Agregar Mascota</a>
                             </button>
                         </li>
                         <li class="nav-item sm-12 lg-6">
-                            <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#perfil">
-                                <a class="nav-link blanco" href="#">Mi Perfil</a>
+                            <button type="submit" class="btn btn-info offset-2" data-bs-toggle="modal" data-bs-target="#perfil">
+                                <a class="nav-link blanco" href="#">Quiero ver Mi Perfil</a>
                             </button>
                         </li>
                     </ul>
@@ -45,16 +45,17 @@
 <div class="container text-center">
     <h1 class="bg-primary blanco">Mis Mascotas</h1>
 </div>
-
 <div class="container">
+    <div class="container">
     <?php
     use Vet\query\select;
+    session_start();
+    $correo = $_SESSION['correo'];
     require_once("../vendor/autoload.php");
-
     $query = new select();
     $cadena = "select mscts.nombre, mscts.color,mscts.sexo,espcs.especie, mscts.m_id, mscts.raza
     from persona as prsn inner join usuarios as usr on prsn.p_id=usr.persona inner join mascotas as mscts on mscts.usuario=usr.u_id inner join especies as espcs
-    on mscts.especie=espcs.e_id where prsn.correo = 'ibeahana@digg.com'";
+    on mscts.especie=espcs.e_id where prsn.correo = '$correo'";
     $reg = $query->seleccionar($cadena);
 
     foreach ($reg as $dato){
@@ -71,17 +72,24 @@
                 <p class='card-text'>Raza: $dato->raza</p>
             </div>
             <div class='card-footer'>
-                <form action='' method='post'>
-                <input type='text' class='visually-hidden' required name='m_id' value='$dato->m_id'>
+                <form action='historial.php' method='post'>
+                <input type='text' class='visually-hidden' required name='mid' value='$dato->m_id'>
                 <button type='submit' class='btn btn-primary btn-lg'>Historial</button>
                 </form>
             </div>
-        </div><br>
+        </div><div class='progress'>
+        <div class='progress-bar progress-bar-striped progress-bar-animated bg-info' aria-label='Animated striped example'  style='width: 100%''></div>
+    </div><br>
     ";
     }
     ?>
-
+    </div>
 </div>
+<br>
+<footer>
+
+</footer>
+
 
 <!--Modals-->
 <!--Agregar Mascota-->
@@ -113,14 +121,15 @@
                     </div>
                     <div class="mb-3">
                         Sexo <br>
-                        <input type="radio" class="form-check-input" name="sexo" value="Macho">Macho
-                        <input type="radio" class="form-check-input" name="sexo" value="Hembra">Hembra<br>
+                        <input type="radio" class="form-check-input" name="sexo" value="Macho" required>Macho
+                        <input type="radio" class="form-check-input" name="sexo" value="Hembra" required>Hembra<br>
                     </div>
                     <div class="mb-3">
                         <?php
                         $query = new select();
                         $cadena3 = "select e_id, especie from especies";
-                        $cadena4 = "select u_id from usuarios as u join persona as p on u.persona = p.p_id where p.correo = 'ibeahana@digg.com'";
+                        $cadena4 = "select u_id from usuarios as u join persona as p 
+                        on p.p_id = u.persona where p.correo = '$correo'";
                         $reg = $query->seleccionar($cadena3);
                         $reg3 = $query->seleccionar($cadena4);
                         echo "<div class='mb-3'>
@@ -156,7 +165,7 @@
 
             <div class="modal-body">
                 <?php
-                $cadena1 = "select nombre, apellido, correo from persona where correo = 'ibeahana@digg.com'";
+                $cadena1 = "select nombre, apellido, correo from persona where correo = '$correo'";
                 $reg1 = $query->seleccionar($cadena1);
                 foreach ($reg1 as $item){
                 echo "<h4>$item->nombre $item->apellido</h4>";
@@ -172,7 +181,7 @@
                     Agregar Telefono
                 </button>
                 <button type="submit" class="btn btn-danger blanco" data-bs-toggle="modal" data-bs-target="#">
-                    Cerrar Sesion
+                    <a href="scripts/cerrarsecion.php" class="blanco nada" style="text-decoration: none">Cerrar Sesion</a>
                 </button>
             </div>
 
@@ -190,7 +199,7 @@
             <div class="modal-body">
                 <?php
                 echo "<h5>Telefonos de Contacto</h5>";
-                $cadena2 = "select numero, descripcion from contacto as c join persona as p on c.persona = p.p_id where p.correo = 'ibeahana@digg.com'";
+                $cadena2 = "select numero, descripcion from contacto as c join persona as p on c.persona = p.p_id where p.correo = '$correo'";
                 $reg2 = $query->seleccionar($cadena2);
                 foreach ($reg2 as $numero){
                     echo "<p><b>Numero:</b> $numero->numero <b>Descripcion:</b> $numero->descripcion</p>";
@@ -220,7 +229,7 @@
                         <input type="text" class="form-control"  required name="des" placeholder="Ej: Fijo">
                         <?php
                         $query = new select();
-                        $iduser = "select p_id from persona where correo = 'ibeahana@digg.com'";
+                        $iduser = "select p_id from persona where correo = '$correo'";
                         $idu = $query->seleccionar($iduser);
                         foreach ($idu as $id){
                             echo "<input type='number' class='visually-hidden' value='$id->p_id' name='id'>";
@@ -231,7 +240,7 @@
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Guardar</button>
             </div>
-                </form>
+            </form>
         </div>
     </div>
 </div>

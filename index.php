@@ -1,3 +1,9 @@
+<?php
+use Vet\query\login;
+require_once("vendor/autoload.php");
+session_start();
+if (!isset($_SESSION["correo"])){
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,20 +33,15 @@
               <div class="container" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item sm-12 lg-6">
-                    <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#register">
+                    <button type="submit" class="btn " data-bs-toggle="modal" data-bs-target="#register">
                       <a class="nav-link active" href="#">No tengo cuenta, Registrame</a>
                     </button>
                   </li>
                   <li class="nav-item sm-12 lg-6">
-                    <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#login">
-                      <a class="nav-link" href="#">Quiero acceder a mi cuenta</a>
+                    <button type="submit" class="btn btn-info offset-2" data-bs-toggle="modal" data-bs-target="#login">
+                      <a class="nav-link blanco" href="#">Quiero acceder a mi cuenta</a>
                     </button>
                   </li>
-                    <li class="nav-item sm-12 lg-6">
-                        <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#loginvet">
-                            <a class="nav-link blanco" href="#">Soy Médico</a>
-                        </button>
-                    </li>
                 </ul>
               </div>
           </div>
@@ -194,10 +195,10 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                      <form action="views/scripts/logincliente.php" method="post">
+                      <form action="views/scripts/verificarlogin.php" method="post">
                           <div class="mb-3">
                               <label for="correo" class="form-label">Correo de Identificacion</label>
-                              <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="usuario" placeholder="Ej: ejemplo@gmail.com">
+                              <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="correo" placeholder="Ej: ejemplo@gmail.com">
                           </div>
                           <div class="mb-3">
                               <label for="contraseña" class="form-label">Contraseña</label>
@@ -213,33 +214,6 @@
                       <button type="button" class="btn btn-info" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#register">No tengo cuenta,
                       registrame!</button>
                       <button type="submit" class="btn btn-primary">Acceder</button>
-                  </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-
-      <!--LoginVeterinario-->
-      <div class="modal fade" tabindex="-1" id="loginvet">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title">Bienvenido de Regreso Medico</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="" method="post">
-                          <div class="mb-3">
-                              <label for="correo" class="form-label">Correo de Identificacion</label>
-                              <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="correo" placeholder="Ej: ejemplo@gmail.com">
-                          </div>
-                          <div class="mb-3">
-                              <label for="contraseña" class="form-label">Contraseña</label>
-                              <input type="password" class="form-control" id="exampleInputPassword1" required name="pass" placeholder="Ej: contraseña">
-                          </div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="submit" class="btn btn-success">Acceder</button>
                   </div>
                   </form>
               </div>
@@ -271,11 +245,12 @@
                           <div class="mb-3">
                               <label for="pass" class="form-label">Contraseña</label>
                               <input type="password" class="form-control" required name="con" placeholder="Ej: contraseña">
+                              <input type="radio" class="form-check-input visually-hidden" name="rol" value="u" required checked>
                           </div>
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quiza luego</button>
-                      <button type="submit" class="btn btn-primary">REGISTRAME!</button>
+                      <button type="submit" class="btn btn-success">REGISTRAME!</button>
                   </div>
 
                   </form>
@@ -292,3 +267,13 @@
 
 </body>
 </html>
+<?php
+}
+else{
+    switch ($_SESSION['rol']){
+        case 'u':
+            header("refresh:0;views/cliente.php");
+        break;
+    }
+}
+?>

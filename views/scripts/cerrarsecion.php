@@ -11,20 +11,16 @@
     <title>RegVet</title>
 </head>
 <body>
-    <?php
-        use Vet\query\inseruser;
-        require_once("../../vendor/autoload.php");
-        extract($_POST);
+<?php
+use Vet\query\login;
+require_once("../../vendor/autoload.php");
 
-        extract($_POST);
-        $insertn = new inseruser();
+$cerrar = new login();
+$cerrar->cerrarLogin();
 
-        $nper = "insert into contacto(numero, descripcion, persona) values ('$tel','$des','$id')";
-        $insertn->inseruser($nper);
+echo "<div  class='rabbit'></div><div class='clouds'></div>";
+header("refresh:3;../../index.php");
 
-
-        echo "<div  class='rabbit'></div><div class='clouds'></div>";
-        header("refresh:2;../cliente.php");
-    ?>
+?>
 </body>
 </html>

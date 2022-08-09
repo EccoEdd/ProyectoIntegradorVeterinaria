@@ -20,12 +20,12 @@
 
     extract($_POST);
     $password = password_hash($_POST['con'], PASSWORD_DEFAULT);
-        $nper = "   insert into persona(nombre, apellido, correo, contrasena)
-                values('$nom','$ape','$cor','$password')";
+        $nper = "   insert into persona(nombre, apellido, correo, contrasena, rol)
+                values('$nom','$ape','$cor','$password','$rol')";
 
         $insertp->inseruser($nper);
 
-        $nu   = "insert into usuarios(persona) select p_id from persona where persona.nombre='$nom' and persona.apellido='$ape'";
+        $nu   = "insert into usuarios(persona) select p_id from persona as p where p.correo = '$cor'";
         $insertu->inseruser($nu);
         echo "<div  class='rabbit'></div><div class='clouds'></div>";
         header("refresh:3;../../index.php");

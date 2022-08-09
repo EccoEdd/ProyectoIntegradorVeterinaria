@@ -12,19 +12,12 @@
 </head>
 <body>
     <?php
-        use Vet\query\inseruser;
-        require_once("../../vendor/autoload.php");
-        extract($_POST);
+    use Vet\query\login;
+    require("../../vendor/autoload.php");
 
-        extract($_POST);
-        $insertn = new inseruser();
-
-        $nper = "insert into contacto(numero, descripcion, persona) values ('$tel','$des','$id')";
-        $insertn->inseruser($nper);
-
-
-        echo "<div  class='rabbit'></div><div class='clouds'></div>";
-        header("refresh:2;../cliente.php");
+    $usuario1 = new login();
+    extract($_POST);
+    $usuario1->verificaLogin("$correo", "$contrasena");
     ?>
 </body>
 </html>
