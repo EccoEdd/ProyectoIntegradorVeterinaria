@@ -12,14 +12,11 @@
 </head>
 <body>
 <?php
-use Vet\query\login;
 require_once("../../vendor/autoload.php");
 
-$cerrar = new login();
-$cerrar->cerrarLogin();
-
 echo "<div  class='rabbit'></div><div class='clouds'></div>";
-header("refresh:2;../../index.php");
+echo "<h2>Redireccionando</h2>";
+header("refresh:2;../cliente.php");
 
 ?>
 </body>

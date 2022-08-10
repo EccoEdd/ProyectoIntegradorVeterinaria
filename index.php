@@ -1,9 +1,3 @@
-<?php
-use Vet\query\login;
-require_once("vendor/autoload.php");
-session_start();
-if (!isset($_SESSION["correo"])){
-    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +11,11 @@ if (!isset($_SESSION["correo"])){
     <link rel="icon" href="images/icon.png">
     <title>RegVet</title>
 </head>
-
 <body>
+<?php
+session_start();
+if (!isset($_SESSION["correo"])){
+?>
     <!--Nab-->
     <header>
     <div class="container-fluid">
@@ -272,8 +269,8 @@ if (!isset($_SESSION["correo"])){
 else{
     switch ($_SESSION['rol']){
         case 'u':
-            header("refresh:0;views/cliente.php");
-        break;
+            header("refresh:0;views/scripts/redirectuser.php");
+            break;
     }
 }
 ?>
