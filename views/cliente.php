@@ -11,6 +11,15 @@
     <title>RegVet</title>
 </head>
 <body>
+<?php
+use Vet\query\select;
+require_once("../vendor/autoload.php");
+
+session_start();
+if(isset($_SESSION['correo'])){
+    switch ($_SESSION['rol']){
+        case 'u':
+?>
 <!--Nab-->
 <header>
     <div class="container-fluid">
@@ -43,17 +52,14 @@
 </header>
 <!--Contenidos-->
 <div class="container text-center">
-    <h1 class="bg-primary blanco">Mis Mascotas</h1>
+    <h1 class="bg-primary blanco rounded-pill">Mis Mascotas</h1>
 </div>
 <div class="container">
     <div class="container">
     <?php
-    use Vet\query\select;
-    session_start();
     $correo = $_SESSION['correo'];
-    require_once("../vendor/autoload.php");
     $query = new select();
-    $cadena = "select mscts.nombre, mscts.color,mscts.sexo,espcs.especie, mscts.m_id, mscts.raza
+    $cadena = "select mscts.nombre, mscts.color,mscts.sexo,espcs.especie, mscts.m_id, mscts.raza, mscts.rasgos
     from persona as prsn inner join usuarios as usr on prsn.p_id=usr.persona inner join mascotas as mscts on mscts.usuario=usr.u_id inner join especies as espcs
     on mscts.especie=espcs.e_id where prsn.correo = '$correo'";
     $reg = $query->seleccionar($cadena);
@@ -65,20 +71,22 @@
                 <h3>$dato->nombre</h3>
             </div>
             <div class='card-body text-center'>
-                <h5 class='card-title'>Datos</h5>
-                <p class='card-text'>Color: $dato->color</p>
-                <p class='card-text'>Sexo: $dato->sexo</p>
-                <p class='card-text'>Especie: $dato->especie</p>
-                <p class='card-text'>Raza: $dato->raza</p>
+            <h5 class='card-title'>Datos</h5>
+            <ul class='list-group list-group-flush'>
+            <li class='list-group-item'>Color: $dato->color</li>
+            <li class='list-group-item'>Especie: $dato->especie</li>
+            <li class='list-group-item'>Raza: $dato->raza</li>
+            <li class='list-group-item'>Sexo: $dato->sexo</li>
+            <li class='list-group-item'>Rasgos: $dato->rasgos</li>
+            </ul>
             </div>
             <div class='card-footer'>
-                <form action='historial.php' method='post'>
-                <input type='text' class='visually-hidden' required name='mid' value='$dato->m_id'>
-                <button type='submit' class='btn btn-primary btn-lg'>Historial</button>
-                </form>
+                <a type='button' class='btn btn-primary btn-lg' href='historial.php?id=$dato->m_id'>Historial</a>
+                <a type='button' class='btn btn-success btn-lg' href='actualizarmas.php?id=$dato->m_id'>Modificar Registro</a>
             </div>
         </div><div class='progress'>
-        <div class='progress-bar progress-bar-striped progress-bar-animated bg-info' aria-label='Animated striped example'  style='width: 100%''></div>
+        <div class='progress-bar progress-bar-striped progress-bar-animated bg-info' aria-label='Animated striped example'  style='width: 100%''>
+        </div>
     </div><br>
     ";
     }
@@ -86,10 +94,6 @@
     </div>
 </div>
 <br>
-<footer>
-
-</footer>
-
 
 <!--Modals-->
 <!--Agregar Mascota-->
@@ -244,5 +248,17 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
+<?php
+break;
+case 'v':
+    break;
+case 'd':
+    break;
+}
+} else {
+    header("refresh:0; scripts/redirectindex.php");
+}
+?>

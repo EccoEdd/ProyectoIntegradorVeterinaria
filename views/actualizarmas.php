@@ -50,75 +50,51 @@ case 'u':
     </div>
     <div class="card border-0 rounded-0 sombreado-g"></div>
 </header>
+<br><br><br><br>
 <!--Contenidos-->
 <div class="container text-center">
     <?php
     $h = $_GET['id'];
-
     $query = new select();
     $cadena1 = "select nombre from mascotas where m_id = '$h'";
     $reg1 = $query->seleccionar($cadena1);
     foreach ($reg1 as $item){
-        echo "<h1 class='bg-primary blanco rounded-pill'>Historial Medico de: $item->nombre</h1>";
+        echo "<h1 class='bg-primary blanco rounded-pill'>Modificando datos de: $item->nombre</h1>";
     }
     ?>
 </div>
 
 <div class="container">
-    <form action="#" method="post">
-        <label>Fecha Desde:</label>
-        <input type="date" class="form-control" placeholder="Start" required name="date1"/>
-        <button type="submit" class="btn btn-info col-12 blanc">Buscar</button>
-    </form>
-</div>
-<br>
 <?php
-    if ($_POST){
-        extract($_POST);
-        $query = new select();
-        $cadena2 = "
-                select concat(prsn_vet.nombre,' ',prsn_vet.apellido) as Veterinario,vet.cedula,clnt.mascota,clnt.raza,clnt.sexo,clnt.especie,concat(cnstls.fecha_consulta,' ',cnstls.hora_consulta) as fecha_con,scrsl.sucursal
-                ,cnstls.peso,cnstls.temperatura,cnstls.sintomas,cnstls.operado,group_concat(serv.servicio) as servicios
-                ,rcts.medicamentos,rcts.prescripcion,cnstls.tipo_pago
-                from persona as prsn_vet inner join veterinarios as vet on prsn_vet.p_id=vet.persona inner join consultas as cnstls on cnstls.veterinario=vet.v_id
-                inner join
-                (select mscts.m_id as msct_id,concat(prsn_cl.nombre,' ',prsn_cl.apellido) as cliente,mscts.nombre as Mascota,mscts.raza,mscts.sexo,espcs.especie,
-                prsn_cl.correo from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
-                on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie) as clnt on clnt.msct_id=cnstls.mascota inner join con_serv on
-                con_serv.consulta=cnstls.cons_id inner join servicios as serv on serv.s_id=con_serv.servicio inner join recetas as rcts on cnstls.cons_id=rcts.consulta
-                inner join sucursal as scrsl on scrsl.num_s=cnstls.sucursal
-                where clnt.msct_id ='$h' && cnstls.fecha_consulta = '$date1' order by cnstls.fecha_consulta;
-        ";
-        $dato = $query->seleccionar($cadena2);
-        foreach ($dato as $item){
+    $idm = $_GET['id'];
+
+    $query = new select();
+    $cadena2 = "select * from mascotas where m_id = '$idm'";
+    $dato = $query->seleccionar($cadena2);
+    foreach ($dato as $item){
         echo"
+<form action='scripts/actualizarmascota.php' method='post'>
         <div class='container'>
         <div class='card'>
             <div class='card-header bg-info text-center'>
-                <h3>Receta Médica</h3>
+                <h3>Datos disponibles a Modificar</h3>
             </div>
-            <div class='card-body'>
-                <h5 class='card-title'>Datos</h5>
-                <p class='card-text'>Color: $item->Veterinario</p>
-                <p class='card-text'>Sexo: $item->cedula</p>
-                <p class='card-text'>Especie: $item->fecha_con</p>
-                <p class='card-text'>Raza: $item->sucursal</p>
-                <p class='card-text'>Sintomas: $item->sintomas</p>
-                <p class='card-text'>Operado: $item->operado</p>
-                <p class='card-text'>Peso: $item->peso</p>
-                <p class='card-text'>Temperatura: $item->temperatura</p>
-                <p class='card-text'>Medicamentos: $item->medicamentos</p>
-                <p class='card-text'>Prescripcion: $item->prescripcion</p>
+            <div class='card-body '>
+                <label for='Raza'>Raza</label>
+                <input type='text' name='raza' id='Raza' value='$item->raza' class='form-control'>
+                <label for='Rasgos'>Rasgos</label>
+                <input type='text' name='rasgos' id='Rasgos' value='$item->rasgos' class='form-control'>
+                <input type='number' name='id' class='visually-hidden' value='$idm'>
             </div>
             <div class='card-footer'>
+            <button type='submit' class='btn btn-success btn-lg'>Guardar Cambios</button>
             </div>
         </div><div class='progress'>
             <div class='progress-bar progress-bar-striped progress-bar-animated bg-info' aria-label='Animated striped example'  style='width: 100%''>
         </div>
         </div><br>
-";
-        }
-    }
+</form>
+";}
 ?>
 </div>
 
@@ -183,13 +159,13 @@ case 'u':
 </body>
 </html>
 <?php
+break;
+case 'v':
     break;
-    case 'v':
-        break;
-    case 'd':
-        break;
-    }
-    } else {
-        header("refresh:0; scripts/redirectindex.php");
-    }
+case 'd':
+    break;
+}
+} else {
+    header("refresh:0; scripts/redirectindex.php");
+}
 ?>

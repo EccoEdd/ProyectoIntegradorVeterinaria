@@ -12,15 +12,21 @@
 </head>
 <body>
 <?php
-use Vet\query\login;
+use Vet\query\inseruser;
 require_once("../../vendor/autoload.php");
 
-$cerrar = new login();
-$cerrar->cerrarLogin();
+extract($_POST);
+$insertn = new inseruser();
+
+$nper = "update mascotas 
+set rasgos='$rasgos',
+raza='$raza'
+where m_id='$id'";
+$insertn->inseruser($nper);
+
 
 echo "<div  class='rabbit'></div><div class='clouds'></div>";
-header("refresh:2;../../index.php");
-
+header("refresh:1;../cliente.php");
 ?>
 </body>
 </html>
