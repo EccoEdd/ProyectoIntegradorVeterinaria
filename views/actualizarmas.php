@@ -34,12 +34,12 @@ case 'u':
                 <div class="container" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item sm-12 lg-6">
-                            <button type="button" class="btn">
+                            <button type="button" class="btn col-8">
                                 <a class="nav-link" href="cliente.php">Regresar a mascotas</a>
                             </button>
                         </li>
                         <li class="nav-item sm-12 lg-6">
-                            <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#perfil">
+                            <button type="submit" class="btn btn-info offset-1" data-bs-toggle="modal" data-bs-target="#perfil">
                                 <a class="nav-link blanco" href="#">Mi Perfil</a>
                             </button>
                         </li>
@@ -124,7 +124,7 @@ case 'u':
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger blanco" data-bs-toggle="modal" data-bs-target="#">
+                <button type="button" class="btn btn-danger blanco" >
                     <a href="scripts/cerrarsecion.php" class="blanco" style="text-decoration: none">Cerrar Sesion</a>
                 </button>
             </div>
