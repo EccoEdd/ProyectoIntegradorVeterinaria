@@ -15,7 +15,7 @@
 require_once("../../vendor/autoload.php");
 
 echo "<div  class='rabbit'></div><div class='clouds'></div>";
-echo "<h2>No se a indiciado sesion</h2>";
+echo "<h2>No se a iniciado sesion</h2>";
 header("refresh:2; ../../index.php");
 
 ?>

@@ -34,12 +34,12 @@ case 'u':
                 <div class="container" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item sm-12 lg-6">
-                            <button type="button" class="btn">
+                            <button type="button" class="btn col-8">
                                 <a class="nav-link" href="cliente.php">Regresar a mascotas</a>
                             </button>
                         </li>
                         <li class="nav-item sm-12 lg-6">
-                            <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#perfil">
+                            <button type="submit" class="btn btn-info offset-1" data-bs-toggle="modal" data-bs-target="#perfil">
                                 <a class="nav-link blanco" href="#">Mi Perfil</a>
                             </button>
                         </li>
@@ -91,6 +91,9 @@ case 'u':
         ";
         $dato = $query->seleccionar($cadena2);
         foreach ($dato as $item){
+            if ($item->fecha_con == null){
+                echo "<div class='container'><div class='alert alert-danger border-danger rounded-pill text-center'><h2>Sin Registros</h2></div></div>";
+            }else{
         echo"
         <div class='container'>
         <div class='card'>
@@ -116,7 +119,7 @@ case 'u':
             <div class='progress-bar progress-bar-striped progress-bar-animated bg-info' aria-label='Animated striped example'  style='width: 100%''>
         </div>
         </div><br>
-";
+";}
         }
     }
 ?>
