@@ -240,6 +240,21 @@ if (!isset($_SESSION["correo"])){
                               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required name="cor" placeholder="Ej: correo@gmail.com">
                           </div>
                           <div class="mb-3">
+                              <div class="row">
+                                  <div class="col-6">
+                                      <label for="Numero" class="form-label">Numero de Telefono</label>
+                                      <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required name="num" placeholder="Ej: 1111111111">
+                                  </div>
+                                  <div class="col-6">
+                                      <label for="descrip" class="form-label">Descripcion</label>
+                                      <select name="des" id="descrip" class="form-select">
+                                          <option value="fijo">Fijo</option>
+                                          <option value="celular">Celular</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="mb-3">
                               <label for="pass" class="form-label">Contraseña</label>
                               <input type="password" class="form-control" required name="con" placeholder="Ej: contraseña">
                               <input type="radio" class="form-check-input visually-hidden" name="rol" value="u" required checked>

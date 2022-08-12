@@ -66,7 +66,20 @@ require_once("../vendor/autoload.php");
     <?php
         extract($_POST);
         $query = new select();
-        $cadena2 = "call vethis($mas)";
+        //$mas mascota
+        $cadena2 = "select cons.sucursal,cnlt.dueno,vet.veterinario,cnlt.mascota,cons.consulta,cons.servicio,cons.fecha_consulta  from  
+(select mscts.m_id,concat('Dueno: ',concat(prsn_cl.nombre,' ',prsn_cl.apellido),'  Telefono: ',cntc.numero) as dueno
+,concat('Mascota: ',mscts.nombre,'   Raza: ',mscts.raza,'   Sexo: ',mscts.sexo,'  Especie: ',espcs.especie) as mascota 
+from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
+on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie inner join contacto as cntc on cntc.persona=prsn_cl.p_id) as cnlt
+inner join (select cnslts.mascota,cnslts.veterinario,cnslts.fecha_consulta,concat('Peso: ',cnslts.peso,'   Temperatura: ',cnslts.temperatura,'   Sintomas: ',cnslts.sintomas,
+'   Operado: ',cnslts.operado,'   Medicamentos: ',cnslts.medicamentos,'  Prescripcion: ',cnslts.prescripcion) as consulta,group_concat(serv.servicio) as servicio 
+, scrsl.sucursal
+from consultas as cnslts inner join con_serv on con_serv.consulta=cnslts.cons_id inner join sucursal as
+scrsl on cnslts.sucursal=scrsl.num_s inner join servicios as serv on serv.s_id=con_serv.servicio group by consulta) as cons on cons.mascota=cnlt.m_id inner join 
+(select vet.v_id,concat('Veterinario:',concat(prsn.nombre,' ',prsn.apellido),'   Cedula:',vet.cedula) as veterinario from persona as prsn 
+inner join veterinarios as vet on vet.persona=prsn.p_id) as vet on vet.v_id=cons.veterinario 
+where cnlt.m_id='$mas'  order by cons.fecha_consulta desc;";
         $dato = $query->seleccionar($cadena2);
         foreach ($dato as $item){
             if($item->fecha_consulta == null){
@@ -83,8 +96,9 @@ require_once("../vendor/autoload.php");
                         <li class='list-group-item'>$item->sucursal</li>
                         <li class='list-group-item'>$item->dueno</li>
                         <li class='list-group-item'>$item->veterinario</li>
-                        <li class='list-group-item'>$item->datosmas</li>
+                        <li class='list-group-item'>$item->mascota</li>
                         <li class='list-group-item'>$item->consulta</li>
+                        <li class='list-group-item'>Serivicios: $item->servicio</li>
                         <li class='list-group-item'>$item->fecha_consulta</li>
                       </ul>
                     </div>
@@ -96,7 +110,7 @@ require_once("../vendor/autoload.php");
                 </div>
                 </div><br>
             ";}
-    }
+        }
     ?>
 </div>
 </div>

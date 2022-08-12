@@ -57,7 +57,7 @@ require_once("../vendor/autoload.php");
 
 <div class="container">
     <div class="row">
-        <div class="col-6">
+        <div class="col-12">
             <form action="#" method="post">
                 <?php
                 $query = new select();
@@ -70,18 +70,80 @@ require_once("../vendor/autoload.php");
                     <select name='usr' class='form-select'>
                     ";
                 foreach ($reg as $value) {
-                    echo"<option value='".$value->u_id."'>".$value->veterinario."</option>";
+                    echo"<option value='".$value->v_id."'>".$value->veterinario."</option>";
                 }
                 echo "</select>
                     </div>";
                 ?>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="date1">Entre fecha</label>
+                        <input type="date" name="date1" class="form-control" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="dat2">Y Fecha</label>
+                        <input type="date" name="date2" class="form-control" required>
+                    </div>
+                </div>
+                <br>
                 <button type="submit" class="btn btn-success col-12">Buscar Consultas de este Medico</button>
             </form>
         </div>
     </div>
 </div>
 <br>
+<div class="container">
+    <?php
+    if ($_POST){
+        extract($_POST);
+        $query = new select();
+        //$usr $date1 $date2
+        $cadena2 = "
+        select cons.sucursal,cnlt.dueno,vet.veterinario,cnlt.mascota,cons.consulta,cons.servicios,cons.fecha_consulta  from  
+(select mscts.m_id,concat('Dueno:',concat(prsn_cl.nombre,' ',prsn_cl.apellido),'  Telefono:',cntc.numero) as dueno
+,concat('Mascota:',mscts.nombre,'   Raza:',mscts.raza,'   Sexo:',mscts.sexo,'  Especie:',espcs.especie) as mascota 
+from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
+on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie inner join contacto as cntc on cntc.persona=prsn_cl.p_id) as cnlt
+inner join (select cnslts.mascota,cnslts.veterinario,cnslts.fecha_consulta,concat('Peso:',cnslts.peso,'   Temperatura:',cnslts.temperatura,'   Sintomas',cnslts.sintomas,
+'   Operado:',cnslts.operado,'   Medicamentos:',rcts.medicamentos,' Prescripcion:',rcts.prescripcion) as consulta, scrsl.sucursal, group_concat(serv.servicio) as servicios
+from consultas as cnslts inner join recetas as rcts on rcts.consulta=cnslts.cons_id inner join con_serv on con_serv.consulta=cnslts.cons_id inner join sucursal as
+scrsl on cnslts.sucursal=scrsl.num_s inner join servicios as serv on serv.s_id=con_serv.servicio group by consulta) as cons on cons.mascota=cnlt.m_id inner join 
+(select vet.v_id,concat('Veterinario:',concat(prsn.nombre,' ',prsn.apellido),'   Cedula:',vet.cedula) as veterinario from persona as prsn 
+inner join veterinarios as vet on vet.persona=prsn.p_id where vet.v_id='$usr') as vet on vet.v_id=cons.veterinario where cons.fecha_consulta between '$date1' and '$date2' 
+group by cons.fecha_consulta order by cons.fecha_consulta desc;
+";
 
+        $dato = $query->seleccionar($cadena2);
+        foreach ($dato as $item){
+                echo"
+                <div class='container'>
+                <div class='card'>
+                    <div class='card-header bg-info text-center'>
+                        <h3>Receta Médica</h3>
+                    </div>
+                    <div class='card-body'>
+                      <ul class='list-group list-group-flush'>
+                        <li class='list-group-item'>$item->sucursal</li>
+                        <li class='list-group-item'>$item->dueno</li>
+                        <li class='list-group-item'>$item->veterinario</li>
+                        <li class='list-group-item'>$item->mascota</li>
+                        <li class='list-group-item'>$item->consulta</li>
+                        <li class='list-group-item'>Servicios: $item->servicios</li>
+                        <li class='list-group-item'>$item->fecha_consulta</li>
+                      </ul>
+                    </div>
+                    <div class='card-footer'>
+                    </div>
+                </div><div class='progress'>
+                    <div class='progress-bar progress-bar-striped progress-bar-animated bg-danger' 
+                    aria-label='Animated striped example'  style='width: 100%'>
+                </div>
+                </div><br>
+            ";
+        }
+    }
+    ?>
+</div>
 
 <!--Modals-->
 <!--Perfil-->
