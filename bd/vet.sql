@@ -1,6 +1,6 @@
 -- MariaDB dump 10.19  Distrib 10.4.24-MariaDB, for Win64 (AMD64)
 --
--- Host: localhost    Database: db_vete_integradora_ya_ahora_si
+-- Host: localhost    Database: veterinaria
 -- ------------------------------------------------------
 -- Server version	10.4.24-MariaDB
 
@@ -14,35 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `citas`
---
-
-DROP TABLE IF EXISTS `citas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `citas` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT,
-  `fecha_cita` date NOT NULL,
-  `fecha_consulta` date NOT NULL,
-  `hora_consulta` time NOT NULL,
-  `usuario` int(11) DEFAULT NULL,
-  PRIMARY KEY (`c_id`),
-  KEY `fk_usuario_cts` (`usuario`),
-  CONSTRAINT `fk_usuario_cts` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1015 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `citas`
---
-
-LOCK TABLES `citas` WRITE;
-/*!40000 ALTER TABLE `citas` DISABLE KEYS */;
-INSERT INTO `citas` VALUES (1000,'2018-02-10','2018-02-10','12:30:00',1000),(1001,'2018-02-20','2018-02-20','11:30:00',1001),(1002,'2018-02-11','2018-02-11','11:10:00',1002),(1003,'2018-02-13','2018-02-13','13:00:00',1003),(1004,'2018-03-01','2018-03-01','12:30:00',1004),(1005,'2018-03-01','2018-03-01','13:45:00',1005),(1006,'2018-03-02','2018-03-02','12:45:00',1006),(1007,'2018-03-06','2018-03-06','13:12:00',1007),(1008,'2018-03-15','2018-03-15','12:30:00',1008),(1009,'2018-03-17','2018-03-17','18:20:00',1009),(1010,'2018-03-18','2018-03-18','17:00:00',1010),(1011,'2018-03-19','2018-03-19','16:48:00',1011),(1012,'2018-03-20','2018-03-20','12:23:00',1012),(1013,'2018-03-20','2018-03-20','13:52:00',1013);
-/*!40000 ALTER TABLE `citas` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `con_serv`
@@ -60,7 +31,7 @@ CREATE TABLE `con_serv` (
   KEY `fk_serv_cs` (`servicio`),
   CONSTRAINT `fk_cons_cs` FOREIGN KEY (`consulta`) REFERENCES `consultas` (`cons_id`),
   CONSTRAINT `fk_serv_cs` FOREIGN KEY (`servicio`) REFERENCES `servicios` (`s_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1025 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1026 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +40,7 @@ CREATE TABLE `con_serv` (
 
 LOCK TABLES `con_serv` WRITE;
 /*!40000 ALTER TABLE `con_serv` DISABLE KEYS */;
-INSERT INTO `con_serv` VALUES (1000,1000,1000),(1001,1001,1000),(1002,1002,1000),(1003,1003,1000),(1004,1004,1000),(1005,1005,1000),(1006,1006,1000),(1007,1007,1000),(1008,1008,1000),(1009,1009,1000),(1010,1010,1000),(1011,1011,1000),(1012,1012,1000),(1013,1013,1000),(1014,1000,1001),(1015,1001,1002),(1016,1002,1003),(1017,1003,1004),(1018,1004,1005),(1019,1005,1005),(1020,1006,1004),(1021,1007,1003),(1022,1008,1002),(1023,1009,1001),(1024,1010,1002);
+INSERT INTO `con_serv` VALUES (1000,1000,1000),(1001,1001,1000),(1002,1002,1000),(1003,1003,1000),(1004,1004,1000),(1005,1005,1000),(1006,1006,1000),(1007,1007,1000),(1008,1008,1000),(1009,1009,1000),(1010,1010,1000),(1011,1011,1000),(1012,1012,1000),(1013,1013,1000),(1014,1000,1001),(1015,1001,1002),(1016,1002,1003),(1017,1003,1004),(1018,1004,1005),(1019,1005,1005),(1020,1006,1004),(1021,1007,1003),(1022,1008,1002),(1023,1009,1001),(1024,1010,1002),(1025,1015,1000);
 /*!40000 ALTER TABLE `con_serv` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,22 +55,25 @@ CREATE TABLE `consultas` (
   `cons_id` int(11) NOT NULL AUTO_INCREMENT,
   `veterinario` int(11) DEFAULT NULL,
   `mascota` int(11) DEFAULT NULL,
-  `citas` int(11) DEFAULT NULL,
+  `fecha_consulta` date DEFAULT NULL,
+  `hora_consulta` time DEFAULT NULL,
   `peso` char(15) CHARACTER SET utf8 NOT NULL,
-  `temperatura` char(15) CHARACTER SET utf8 NOT NULL,
+  `temperatura` varchar(15) CHARACTER SET utf8 NOT NULL,
   `sintomas` varchar(100) NOT NULL,
   `operado` char(2) CHARACTER SET utf8 NOT NULL,
   `descripcion` varchar(100) NOT NULL,
+  `sucursal` int(11) DEFAULT NULL,
   `tipo_pago` varchar(11) NOT NULL,
   `monto_total` decimal(10,0) NOT NULL,
   PRIMARY KEY (`cons_id`),
   KEY `fk_veterinario_cons` (`veterinario`),
   KEY `fk_mascota_cons` (`mascota`),
-  KEY `fk_cts_cons` (`citas`),
-  CONSTRAINT `fk_cts_cons` FOREIGN KEY (`citas`) REFERENCES `consultas` (`cons_id`),
+  KEY `fk_cts_cons` (`fecha_consulta`),
+  KEY `fk_sucurs_consult` (`sucursal`),
   CONSTRAINT `fk_mascota_cons` FOREIGN KEY (`mascota`) REFERENCES `mascotas` (`m_id`),
+  CONSTRAINT `fk_sucurs_consult` FOREIGN KEY (`sucursal`) REFERENCES `sucursal` (`num_s`),
   CONSTRAINT `fk_veterinario_cons` FOREIGN KEY (`veterinario`) REFERENCES `veterinarios` (`v_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1014 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1016 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +82,7 @@ CREATE TABLE `consultas` (
 
 LOCK TABLES `consultas` WRITE;
 /*!40000 ALTER TABLE `consultas` DISABLE KEYS */;
-INSERT INTO `consultas` VALUES (1000,1001,1000,1000,'2','36','ha estado vomitando y tiene aspecto debil','si','se encuentra mal del estomago','Efectivo',800),(1001,1000,1001,1001,'3','37','tiene una gran inflamacion en hosico','no','parece estar agonizando','Efectivo',730),(1002,1002,1002,1002,'4','38','tiene una fiebre muy grave','no','parece tener temperatura','Tarjeta',600),(1003,1003,1003,1003,'2','36','esta muy caliente y esta debil','si','parece tener fiebre','Tarjeta',780),(1004,1004,1004,1004,'1','39','esta muy caliente y esta debil','si','parece tener fiebre','Efectivo',900),(1005,1001,1005,1005,'.500','40','ha estado vomitando y tiene aspecto debil','no','se encuentra mal del estomago','Tarjeta',842),(1006,1002,1006,1006,'1.5','41','tiene una gran inflamacion en hosico','si','parece estar agonizando','Tarjeta',462),(1007,1003,1007,1007,'2.3','37','esta muy caliente y esta debil','no','parece tener fiebre','Efectivo',500),(1008,1004,1008,1008,'2.4','38','ha estado vomitando y tiene aspecto debil','no','se encuentra mal del estomago','Tarjeta',685),(1009,1003,1009,1009,'3.2','37','ha estado vomitando mucho','si','se encuentra mal del estomago','Efectivo',759),(1010,1002,1010,1010,'2.9','38','tiene calentura y esta debil','no','parece tener fiebre','Tarjeta',800),(1011,1001,1011,1011,'1.8','37','tiene una gran inflamacion en hosico','no','parece estar agonizando','Efectivo',839),(1012,1000,1012,1012,'2','39','tiene una gran inflamacion en hosico','si','parece estar agonizando','Tarjeta',810),(1013,1001,1013,1013,'2.7','40','esta muy caliente y esta debil','no','se encuentra mal del estomago','Efectivo',750);
+INSERT INTO `consultas` VALUES (1000,1001,1000,'2018-02-10','12:30:00','2','36 C','ha estado vomitando y tiene aspecto debil','si','se encuentra mal del estomago',1000,'Efectivo',800),(1001,1000,1001,'2018-02-20','11:30:00','3','37 C','tiene una gran inflamacion en hosico','no','parece estar agonizando',1001,'Efectivo',730),(1002,1002,1002,'2018-02-11','13:00:00','4','38 C','tiene una fiebre muy grave','no','parece tener temperatura',1002,'Tarjeta',600),(1003,1003,1003,'2018-02-13','12:30:00','2','36 C','esta muy caliente y esta debil','si','parece tener fiebre',1000,'Tarjeta',780),(1004,1004,1004,'2018-03-01','13:45:00','1','39 C','esta muy caliente y esta debil','si','parece tener fiebre',1002,'Efectivo',900),(1005,1001,1005,'2018-03-01','12:45:00','.500','40 C','ha estado vomitando y tiene aspecto debil','no','se encuentra mal del estomago',1001,'Tarjeta',842),(1006,1002,1006,'2018-03-02',NULL,'1.5','41 C','tiene una gran inflamacion en hosico','si','parece estar agonizando',1001,'Tarjeta',462),(1007,1003,1007,'2018-03-06',NULL,'2.3','37 C','esta muy caliente y esta debil','no','parece tener fiebre',1000,'Efectivo',500),(1008,1004,1008,'2018-03-15','13:12:00','2.4','38 C','ha estado vomitando y tiene aspecto debil','no','se encuentra mal del estomago',1001,'Tarjeta',685),(1009,1003,1009,'2018-03-17','12:30:00','3.2','37 C','ha estado vomitando mucho','si','se encuentra mal del estomago',1002,'Efectivo',759),(1010,1002,1010,'2018-03-18','18:20:00','2.9','38 C','tiene calentura y esta debil','no','parece tener fiebre',1001,'Tarjeta',800),(1011,1001,1011,'2018-03-19','17:00:00','1.8','37 C','tiene una gran inflamacion en hosico','no','parece estar agonizando',1000,'Efectivo',839),(1012,1000,1012,'2018-03-20','16:48:00','2','39 C','tiene una gran inflamacion en hosico','si','parece estar agonizando',1002,'Tarjeta',810),(1013,1001,1013,'2018-03-20','12:23:00','2.7','40 C','esta muy caliente y esta debil','no','se encuentra mal del estomago',1001,'Efectivo',750),(1015,1002,1010,'2018-04-05','12:00:00','2.8','37 C','la mascota es vomitando mucho','no','necesita medicinas para el estomago',1000,'Tarjeta',700);
 /*!40000 ALTER TABLE `consultas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,8 +174,8 @@ CREATE TABLE `mascotas` (
   `nombre` varchar(40) NOT NULL,
   `color` varchar(25) NOT NULL,
   `raza` varchar(30) NOT NULL,
-  `rasgos` varchar(50) DEFAULT NULL,
-  `sexo` char(1) DEFAULT NULL,
+  `rasgos` text DEFAULT NULL,
+  `sexo` char(6) DEFAULT NULL,
   `usuario` int(11) DEFAULT NULL,
   `especie` int(11) DEFAULT NULL,
   PRIMARY KEY (`m_id`),
@@ -218,7 +192,7 @@ CREATE TABLE `mascotas` (
 
 LOCK TABLES `mascotas` WRITE;
 /*!40000 ALTER TABLE `mascotas` DISABLE KEYS */;
-INSERT INTO `mascotas` VALUES (1000,'Westleigh','Yellow','sanvernardo','Synchronised user-facing matrix','f',1005,1000),(1001,'See','Turquoise','doverman','Distributed empowering concept','m',1006,1000),(1002,'Ossie','Fuscia','siames','Inverse bandwidth-monitored application','m',1007,1001),(1003,'Nils','Puce','sanvernardo','Team-oriented zero defect budgetary management','f',1008,1000),(1004,'Keary','Aquamarine','siames','Face to face discrete access','f',1009,1001),(1005,'Ibrahim','Orange','siames','De-engineered zero tolerance superstructure','m',1010,1001),(1006,'Westbrook','Purple','labrador','Up-sized regional collaboration','f',1011,1000),(1007,'Julina','Yellow','pug','Public-key methodical service-desk','f',1012,1000),(1008,'Isaiah','Puce','mestizo','Balanced asynchronous task-force','m',1013,1001),(1009,'Gago','negro,cafe,blanco','sanvernardo','Synchronised user-facing matrix','m',1004,1000),(1010,'Daisy','negro,cafe,blanco','doverman','Distributed empowering concept','f',1003,1000),(1011,'Luna','cafe claro','siames','Inverse bandwidth-monitored application','f',1002,1001),(1012,'Joaquin','cafe','sanvernardo','Team-oriented zero defect budgetary management','m',1001,1000),(1013,'Negra','negro','siames','Face to face discrete access','f',1000,1001);
+INSERT INTO `mascotas` VALUES (1000,'Westleigh','Yellow','Doberman','Juega Brusco','hembra',1005,1000),(1001,'See','Turquoise','doverman','Distributed empowering concept','macho',1006,1000),(1002,'Ossie','Fuscia','siames','Inverse bandwidth-monitored application','macho',1007,1001),(1003,'Nils','Puce','sanvernardo','Team-oriented zero defect budgetary management','hembra',1008,1000),(1004,'Keary','Aquamarine','siames','Face to face discrete access','hembra',1009,1001),(1005,'Ibrahim','Orange','siames','De-engineered zero tolerance superstructure','macho',1010,1001),(1006,'Westbrook','Purple','labrador','Up-sized regional collaboration','hembra',1011,1000),(1007,'Julina','Yellow','pug','Public-key methodical service-desk','hembra',1012,1000),(1008,'Isaiah','Puce','mestizo','Balanced asynchronous task-force','macho',1013,1001),(1009,'Gago','negro,cafe,blanco','sanvernardo','Synchronised user-facing matrix','macho',1004,1000),(1010,'Daisy','negro,cafe,blanco','doverman','Distributed empowering concept','hembra',1003,1000),(1011,'Luna','cafe claro','siames','Inverse bandwidth-monitored application','hembra',1002,1001),(1012,'Joaquin','cafe','sanvernardo','Team-oriented zero defect budgetary management','macho',1001,1000),(1013,'Negra','negro','siames','Face to face discrete access','hembra',1000,1001);
 /*!40000 ALTER TABLE `mascotas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,10 +209,11 @@ CREATE TABLE `persona` (
   `apellido` varchar(45) NOT NULL,
   `correo` varchar(45) NOT NULL,
   `contrasena` varchar(500) NOT NULL,
+  `rol` char(1) DEFAULT NULL,
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `p_id` (`p_id`),
   UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1019 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1020 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +222,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1000,'Maxwell','Hickisson','mhickisson0@rediff.com','g9WaXX'),(1001,'Jane','Veare','jveare1@google.com.br','8F6r5hWm'),(1002,'Timmie','Sommersett','tsommersett2@nsw.gov.au','ZNxGb5r'),(1003,'Adiana','Callingham','acallingham3@behance.net','ggfLQy6Z1dgz'),(1004,'Corissa','Mustard','cmustard4@xinhuanet.com','FIfA2t'),(1005,'Dorrie','Trumble','dtrumble5@cocolog-nifty.com','Kwo2otmJ9c'),(1006,'Gibbie','Gravenor','ggravenor6@ycombinator.com','tUy5sJoZeU'),(1007,'Brantley','Mowling','bmowling7@dedecms.com','SxGo2T6rp5'),(1008,'Dexter','Mulqueen','dmulqueen8@bandcamp.com','KkkAvLxSsFG'),(1009,'Meghann','Mingauld','mmingauld9@csmonitor.com','1cn0Yg'),(1010,'Inness','Beahan','ibeahana@digg.com','YizVGUf2'),(1011,'Stearn','Prettyjohn','sprettyjohnb@w3.org','5gKjBGJ4K4'),(1012,'Mathew','Nobriga','mnobrigac@bloglovin.com','9r1UWi'),(1013,'Phillipe','Ickowics','pickowicsd@sciencedaily.com','kZAQNxIdmth'),(1014,'Bennie','Lukas','blukase@sciencedaily.com','jKwRgPhT5'),(1015,'Inger','Walster','iwalsterf@lulu.com','9RY0R0hpH'),(1016,'Coreen','Beville','cbevilleg@aol.com','MUyRxef'),(1017,'Shurwood','Rosborough','srosboroughh@wikispaces.com','MsdVmI'),(1018,'Umeko','Cheeke','ucheekei@ezinearticles.com','Oybl5VKZWeW7');
+INSERT INTO `persona` VALUES (1000,'Maxwell','Hickisson','mhickisson0@rediff.com','g9WaXX','v'),(1001,'Jane','Veare','jveare1@google.com.br','8F6r5hWm','v'),(1002,'Timmie','Sommersett','tsommersett2@nsw.gov.au','ZNxGb5r','v'),(1003,'Adiana','Callingham','acallingham3@behance.net','ggfLQy6Z1dgz','d'),(1004,'Corissa','Mustard','cmustard4@xinhuanet.com','FIfA2t','v'),(1005,'Dorrie','Trumble','dtrumble5@cocolog-nifty.com','Kwo2otmJ9c','u'),(1006,'Gibbie','Gravenor','ggravenor6@ycombinator.com','tUy5sJoZeU','u'),(1007,'Brantley','Mowling','bmowling7@dedecms.com','SxGo2T6rp5','u'),(1008,'Dexter','Mulqueen','dmulqueen8@bandcamp.com','KkkAvLxSsFG','u'),(1009,'Meghann','Mingauld','mmingauld9@csmonitor.com','1cn0Yg','u'),(1010,'Inness','Beahan','ibeahana@digg.com','YizVGUf2','u'),(1011,'Stearn','Prettyjohn','sprettyjohnb@w3.org','5gKjBGJ4K4','u'),(1012,'Mathew','Nobriga','mnobrigac@bloglovin.com','9r1UWi','u'),(1013,'Phillipe','Ickowics','pickowicsd@sciencedaily.com','kZAQNxIdmth','u'),(1014,'Bennie','Lukas','blukase@sciencedaily.com','jKwRgPhT5','u'),(1015,'Inger','Walster','iwalsterf@lulu.com','9RY0R0hpH','u'),(1016,'Coreen','Beville','cbevilleg@aol.com','MUyRxef','u'),(1017,'Shurwood','Rosborough','srosboroughh@wikispaces.com','MsdVmI','u'),(1018,'Umeko','Cheeke','ucheekei@ezinearticles.com','Oybl5VKZWeW7','u'),(1019,'rodrigo','perez','elpelao@hotmail.com','qwerty','u');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +250,7 @@ CREATE TABLE `recetas` (
 
 LOCK TABLES `recetas` WRITE;
 /*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
-INSERT INTO `recetas` VALUES (1000,'antacid cherry flavored','0WHF31Z',1001),(1001,'Tri-Sprintec','0G940ZX',1002),(1002,'Chlorpromazine Hydrochloride','0Y6C0Z1',1003),(1003,'Loperamide Hydrochloride','03150KJ',1004),(1004,'Montelukast Sodium','B410YZZ',1005),(1005,'clindamycin phosphate','07PN33Z',1006),(1006,'Lamivudine','0MUV47Z',1007),(1007,'CLEAR AND CLEAN Neutral pH Antiseptic Hand Wash','047A4Z6',1008),(1008,'severe cold and sinus relief PE','0CPY77Z',1009),(1009,'Candida I','0LQK3ZZ',1010),(1010,'PENICILLIN G PROCAINE','041D49C',1011),(1011,'Heparin Sodium','B53BYZZ',1012),(1012,'Phentermine Hydrochloride','0G9K4ZX',1013),(1013,'HAND SANITIZER ALCOHOL FREE','0DLC3ZZ',1000);
+INSERT INTO `recetas` VALUES (1000,'antacid cherry flavored','Tomar una cada 8 horas',1001),(1001,'Tri-Sprintec','aplicarlo sobre la herida',1002),(1002,'Chlorpromazine Hydrochloride','aplicarlo sobre la herida',1003),(1003,'Loperamide Hydrochloride','Tomar una cada 8 horas',1004),(1004,'Montelukast Sodium','inyectar a la mascota cada 2 dias',1005),(1005,'clindamycin phosphate','aplicarlo sobre la herida',1006),(1006,'Lamivudine','Tomar una cada 8 horas',1007),(1007,'CLEAR AND CLEAN Neutral pH Antiseptic Hand Wash','aplicarlo sobre la herida',1008),(1008,'severe cold and sinus relief PE','Tomar una cada 8 horas',1009),(1009,'Candida I','Tomar una cada 8 horas',1010),(1010,'PENICILLIN G PROCAINE','aplicarlo sobre la herida',1011),(1011,'Heparin Sodium','aplicarlo sobre la herida',1012),(1012,'Phentermine Hydrochloride','inyectar a la mascota cada 2 dias',1013),(1013,'HAND SANITIZER ALCOHOL FREE','aplicarlo sobre la herida',1000);
 /*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,8 +274,32 @@ CREATE TABLE `servicios` (
 
 LOCK TABLES `servicios` WRITE;
 /*!40000 ALTER TABLE `servicios` DISABLE KEYS */;
-INSERT INTO `servicios` VALUES (1000,'servicio'),(1001,'profilaxis'),(1002,'esterilizacion'),(1003,'vacunacion'),(1004,'radiologia'),(1005,'estudios de sangre');
+INSERT INTO `servicios` VALUES (1000,'consulta'),(1001,'profilaxis'),(1002,'esterilizacion'),(1003,'vacunacion'),(1004,'radiologia'),(1005,'estudios de sangre');
 /*!40000 ALTER TABLE `servicios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sucursal`
+--
+
+DROP TABLE IF EXISTS `sucursal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sucursal` (
+  `num_s` int(11) NOT NULL AUTO_INCREMENT,
+  `sucursal` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`num_s`)
+) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sucursal`
+--
+
+LOCK TABLES `sucursal` WRITE;
+/*!40000 ALTER TABLE `sucursal` DISABLE KEYS */;
+INSERT INTO `sucursal` VALUES (1000,'Veterinaria Huellitas'),(1001,'Veterinaria Excola'),(1002,'Domicilio');
+/*!40000 ALTER TABLE `sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -367,7 +366,6 @@ DROP TABLE IF EXISTS `veterinarios`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `veterinarios` (
   `v_id` int(11) NOT NULL AUTO_INCREMENT,
-  `rol` char(1) NOT NULL,
   `persona` int(11) NOT NULL,
   `cedula` char(13) NOT NULL,
   PRIMARY KEY (`v_id`),
@@ -382,7 +380,7 @@ CREATE TABLE `veterinarios` (
 
 LOCK TABLES `veterinarios` WRITE;
 /*!40000 ALTER TABLE `veterinarios` DISABLE KEYS */;
-INSERT INTO `veterinarios` VALUES (1000,'v',1000,'1204536879206'),(1001,'v',1001,'203050416980'),(1002,'v',1002,'2003597846312'),(1003,'d',1003,'0157498632561'),(1004,'v',1004,'1547896326847');
+INSERT INTO `veterinarios` VALUES (1000,1000,'1204536879206'),(1001,1001,'203050416980'),(1002,1002,'2003597846312'),(1003,1003,'0157498632561'),(1004,1004,'1547896326847');
 /*!40000 ALTER TABLE `veterinarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -395,4 +393,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-05 13:50:04
+-- Dump completed on 2022-08-10 11:20:13
