@@ -22,8 +22,9 @@
 
     extract($_POST);
     $password = password_hash($_POST['con'], PASSWORD_DEFAULT);
+        echo $cor;
         $nper = "   insert into persona(nombre, apellido, correo, contrasena, rol)
-                values('$nom','$ape','$cor','$password','$rol')";
+                values('$nom','$ape','$cor','$password','u')";
         $insertp->inseruser($nper);
 
         $nu   = "insert into usuarios(persona) select p_id from persona as p where p.correo = '$cor'";
