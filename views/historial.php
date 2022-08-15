@@ -99,7 +99,7 @@ inner join veterinarios as vet on vet.persona=prsn.p_id) as vet on vet.v_id=cons
 where cnlt.m_id='$h' && cons.fecha_consulta between '$date1' and '$date2' order by cons.fecha_consulta desc;";
         $dato = $query->seleccionar($cadena2);
         foreach ($dato as $item){
-            if ($item->fecha_con == null){
+            if ($item->fecha_consulta == null){
                 echo "<div class='container'><div class='alert alert-danger border-danger rounded-pill text-center'><h2>Sin Registros</h2></div></div>";
             }else{
         echo"

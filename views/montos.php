@@ -19,8 +19,7 @@ session_start();
 if(isset($_SESSION['correo'])){
 switch ($_SESSION['rol']){
 case 'd' || 'v':
-        if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
-
+if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
 ?>
 <!--Nab-->
 <header>
@@ -52,14 +51,16 @@ case 'd' || 'v':
     </div>
     <div class="card border-0 rounded-0 sombreado-g"></div>
 </header>
+<br>
+
 <!--Contenidos-->
 <div class="container text-center">
-    <h1 class="bg-primary rounded-pill blanco">Historial Medico por Sucursal</h1>
+    <h1 class="bg-primary rounded-pill blanco">Montos Agrupados</h1>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <form action="#" method="post">
                 <?php
                 $query = new select();
@@ -67,8 +68,8 @@ case 'd' || 'v':
                 $reg = $query->seleccionar($cadena);
 
                 echo "<div class='mb-3'>
-                    <label class='control-label'><h5>Sucursal</h5></label>
-                    <select name='usr' class='form-select'>
+                    <label class='control-label'><h5>Buscar por sucursal</h5></label>
+                    <select name='sucu' class='form-select'>
                     ";
                 foreach ($reg as $value) {
                     echo"<option value='".$value->num_s."'>".$value->sucursal."</option>";
@@ -76,70 +77,78 @@ case 'd' || 'v':
                 echo "</select>
                     </div>";
                 ?>
-                <div class="row">
-                    <div class="col-6">
-                        <label for="date1">Entre fecha</label>
-                        <input type="date" name="date1" class="form-control" required>
-                    </div>
-                    <div class="col-6">
-                        <label for="dat2">Y Fecha</label>
-                        <input type="date" name="date2" class="form-control" required>
-                    </div>
+                <input type="text" class="visually-hidden" value="sucursal" name="tipo">
+        </div>
+        <div class="col-6 container" >
+            <div class="row">
+                <div class="col-6">
+                    <label>Fecha Desde:</label>
+                    <input type="date" class="form-control" placeholder="Start" required name="date1"/>
                 </div>
-                <br>
-                <button type="submit" class="btn btn-success col-12">Buscar Historial por Sucursal</button>
-            </form>
+                <div class="col-6">
+                    <label>Hasta</label>
+                    <input type="date" class="form-control" placeholder="end" required name="date2"/>
+                </div>
+            </div>
         </div>
     </div>
+    <button type="submit" class="btn btn-success col-12" style="margin-top: -7.3px">Buscar</button>
+    </form>
 </div>
 <br>
+
+<!--Consulta-->
 <div class="container">
+
     <?php
-    if ($_POST){
+    if ($_POST) {
         extract($_POST);
         $query = new select();
-        $cadena2 = "select scrsl.sucursal,concat('Dueno:',concat(prsn_cl.nombre,' ',prsn_cl.apellido),'  Telefono:',cntc.numero) as dueno,
-vet.veterinario,concat('Mascota:',mscts.nombre,'   Raza:',mscts.raza,'   Sexo:',mscts.sexo,'  Especie:',espcs.especie) as mascota,concat('Peso:',cnslts.peso,'   Temperatura:',cnslts.temperatura,'   Sintomas:',cnslts.sintomas,
-'   Operado:',cnslts.operado,'   Medicamentos:',cnslts.medicamentos,' Prescripcion:',cnslts.prescripcion) as consulta,group_concat(serv.servicio) as servicios,cnslts.fecha_consulta
-from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
-on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie inner join contacto as cntc on cntc.persona=prsn_cl.p_id inner join consultas as
-cnslts on cnslts.mascota=mscts.m_id inner join sucursal as scrsl on scrsl.num_s=cnslts.sucursal inner join con_serv on con_serv.consulta=cnslts.cons_id inner join servicios
-as serv on serv.s_id=con_serv.servicio inner join 
-(select vet.v_id,concat('Veterinario:',concat(perusona.nombre,' ',perusona.apellido),'   Cedula:',vet.cedula) as veterinario
-from persona as perusona inner join veterinarios as vet on vet.persona=perusona.p_id) as vet on cnslts.veterinario=vet.v_id
-where scrsl.num_s='$usr' and cnslts.fecha_consulta between '$date1' and '$date2'
-group by mscts.nombre order by cnslts.fecha_consulta desc";
+        $cadena2 = "select sucu.sucursal,count(case when cnslts.tipo_pago='Efectivo' then 1 else null end) as 'Efectivo',
+sum(case when cnslts.tipo_pago='Efectivo' then cnslts.monto_total else 0 end) as ganancia_efectivo,
+count(case when cnslts.tipo_pago='Tarjeta' then 1 else null end) as 'Tarjeta',
+sum(case when cnslts.tipo_pago='Tarjeta' then cnslts.monto_total else 0 end) as ganancia_tarjeta,
+sum(cnslts.monto_total) as mt
+from sucursal as sucu inner join consultas as cnslts on sucu.num_s=cnslts.sucursal
+where cnslts.fecha_consulta between '$date1' and '$date2' and sucu.num_s='$sucu';";
         $dato = $query->seleccionar($cadena2);
-        foreach ($dato as $item){
-            echo"
-                <div class='container'>
-                <div class='card'>
-                    <div class='card-header bg-info text-center'>
-                        <h3>Receta Médica</h3>
-                    </div>
-                    <div class='card-body'>
-                      <ul class='list-group list-group-flush'>
-                        <li class='list-group-item'>$item->sucursal</li>
-                        <li class='list-group-item'>$item->dueno</li>
-                        <li class='list-group-item'>$item->veterinario</li>
-                        <li class='list-group-item'>$item->mascota</li>
-                        <li class='list-group-item'>$item->consulta</li>
-                        <li class='list-group-item'>Servicios: $item->servicios</li>
-                        <li class='list-group-item'>$item->fecha_consulta</li>
-                      </ul>
-                    </div>
-                    <div class='card-footer'>
-                    </div>
-                </div><div class='progress'>
-                    <div class='progress-bar progress-bar-striped progress-bar-animated bg-danger' 
-                    aria-label='Animated striped example'  style='width: 100%'>
-                </div>
-                </div><br>
+        foreach ($dato as $item) {
+            if ($item->sucursal == null) {
+                echo "<div class='alert alert-danger border-danger rounded-pill text-center'><h2>No hay datos aun</h2></div>";
+            } else {
+                echo "
+                <table class='table table-hover'>
+                <thead class'table-dark'>
+                <tr>
+                <th>Sucursal</th>
+                <th>Efectivo</th>
+                <th>Ganancia Efectivo</th>
+                <th>Tarjeta</th>
+                <th>Ganancia Tarjeta</th>
+                <th>Ganancia Total</th>                
+                </thead>
+                </tbody>
             ";
+                foreach ($dato as $registro) {
+                    echo "<tr>";
+                    echo "<td> $registro->sucursal</td>";
+                    echo "<td> $registro->Efectivo</td>";
+                    echo "<td> $registro->ganancia_efectivo</td>";
+                    echo "<td> $registro->Tarjeta</td>";
+                    echo "<td> $registro->ganancia_tarjeta</td>";
+                    echo "<td> $registro->mt</td>";
+                    echo "</tr>";
+                }
+                echo "</tbody>
+                </table>";
+            }
         }
     }
     ?>
 </div>
+</div>
+<br>
+
 
 <!--Modals-->
 <!--Perfil-->
