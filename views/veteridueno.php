@@ -47,8 +47,8 @@ case 'd' || 'v':
                         if ($_SESSION['rol'] == 'd'){
 
                         ?>
-                        <li><a class="dropdown-item" href="vetitabla.php">Veterinarios</a></li>
-                        <li><a class="dropdown-item" href="sucursales.php">Sucursal</a></li>
+                        <li><a class="dropdown-item" href="vetitabla.php">Ver Veterinarios</a></li>
+                        <li><a class="dropdown-item" href="sucursales.php">Ver Sucursales</a></li>
                         <li><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#agregarveterinario">Agregar Veterinario</a></li>
                         <li><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#agregarsucursal">Agregar Sucursal</a></li>
                         <li><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#agregarservicio">Agregar Servicio</a></li>
@@ -83,7 +83,7 @@ case 'd' || 'v':
 <div class="contenedor1">
       <div class="row row-cols-1 row-cols-md-3 g-5">
       <div class="col">
-    <a href=""><div class="card">
+    <a href="histofecha.php"><div class="card">
       <img src="../images/11.png" class="card-img-top" alt="...">
       <div class="card-body">
           <center><h3 class="card-title btn btn-info btn-lg blanco">Ver historiales por fecha</h3></center>
@@ -136,7 +136,7 @@ case 'd' || 'v':
     </div></a></div>
 
     <div class="col">
-    <a href=""><div class="card">
+    <a href="montos.php"><div class="card">
       <img src="../images/7.png" class="card-img-top" alt="...">
       <div class="card-body">
           <center><h3 class="card-title btn btn-info btn-lg blanco">Ver reporte de Montos</h3></center>
