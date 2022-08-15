@@ -336,6 +336,17 @@ case 'd' || 'v':
 
       </div>
   </div>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" aria-label="Animated striped example"  style="width: 100%"></div>
+</div>
+
+<!--Conejo-->
+<footer>
+    <div class="container-fluid bodyrabbit">
+        <div  class="rabbit"></div>
+        <div class="clouds"></div>
+    </div>
+</footer>
 </body>
 </html>
 <?php
