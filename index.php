@@ -195,11 +195,11 @@ if (!isset($_SESSION["correo"])){
                       <form action="views/scripts/verificarlogin.php" method="post">
                           <div class="mb-3">
                               <label for="correo" class="form-label">Correo de Identificacion</label>
-                              <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required name="correo" placeholder="Ej: ejemplo@gmail.com">
+                              <input type="email" class="form-control" id="cor" aria-describedby="emailHelp" required name="correo" placeholder="Ej: ejemplo@gmail.com">
                           </div>
                           <div class="mb-3">
                               <label for="contraseña" class="form-label">Contraseña</label>
-                              <input type="password" class="form-control" id="exampleInputPassword1" required name="contrasena" placeholder="Ej: contraseña">
+                              <input type="password" class="form-control"  required name="contrasena" placeholder="Ej: contraseña">
                           </div>
                           <div class="container">
                               <div class="col-5 offset-3">
@@ -237,13 +237,13 @@ if (!isset($_SESSION["correo"])){
                           </div>
                           <div class="mb-3">
                               <label for="Correo" class="form-label">Correo</label>
-                              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required name="cor" placeholder="Ej: correo@gmail.com">
+                              <input type="email" class="form-control" id="Correo" aria-describedby="emailHelp" name="cor" placeholder="Ej: correo@gmail.com">
                           </div>
                           <div class="mb-3">
                               <div class="row">
                                   <div class="col-6">
                                       <label for="Numero" class="form-label">Numero de Telefono</label>
-                                      <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required name="num" placeholder="Ej: 1111111111">
+                                      <input type="number" class="form-control" id="Numero" aria-describedby="emailHelp" required name="num" placeholder="Ej: 1111111111">
                                   </div>
                                   <div class="col-6">
                                       <label for="descrip" class="form-label">Descripcion</label>
@@ -286,7 +286,7 @@ else{
         case 'u':
             header("refresh:0;views/scripts/redirectuser.php");
             break;
-        case 'v' && 'd':
+        case 'v' || 'd':
             header("refresh:0;views/scripts/redirectvet.php");
             break;
     }

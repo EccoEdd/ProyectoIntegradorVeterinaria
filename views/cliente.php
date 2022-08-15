@@ -253,9 +253,8 @@ if(isset($_SESSION['correo'])){
 </html>
 <?php
 break;
-case 'v':
-    break;
-case 'd':
+case 'v' || 'd':
+    header("refresh:0; scripts/redirectvet.php");
     break;
 }
 } else {

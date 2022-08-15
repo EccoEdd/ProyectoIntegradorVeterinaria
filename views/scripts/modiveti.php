@@ -11,36 +11,37 @@
     <title>RegVet</title>
 </head>
 <body>
-    <?php
+<?php
     use Vet\query\inseruser;
     use Vet\query\select;
     require_once("../../vendor/autoload.php");
-
     $insertp = new inseruser();
     $insertu = new inseruser();
-    $suser = new select();
-
+    $inseres = new inseruser();
+    $checkbox=1;
+    $id=$_GET['id'];
     extract($_POST);
-    $password = password_hash($_POST['con'], PASSWORD_DEFAULT);
-        echo $cor;
-        $nper = "   insert into persona(nombre, apellido, correo, contrasena, rol)
-                values('$nom','$ape','$cor','$password','u')";
-        $insertp->inseruser($nper);
-
-        $nu   = "insert into usuarios(persona) select p_id from persona as p where p.correo = '$cor'";
+        $nu = "UPDATE veterinarios 
+        SET cedula='$cedu', condicion='$condi'
+        where veterinarios.v_id=$id";
         $insertu->inseruser($nu);
 
-        $user = "select p_id from persona as p where p.correo = '$cor'";
-        $usr = $suser->seleccionar($user);
-        foreach($usr as $id){
-        $nu = "INSERT INTO contacto(numero, descripcion, persona)  
-        values ('$num','$des','$id->p_id')";
-        $insertu->inseruser($nu);
-        }
+        $queryd = new Select();
+        $cadenad = "SELECT veterinarios.v_id from veterinarios where veterinarios.cedula=$cedu";
+        $tablad = $queryd->seleccionar($cadenad);
 
+        if($checkbox!=1){
+        foreach($tablad as $id_v){
+        $checkbox=$_POST['checkbox'];
+        foreach($checkbox as $valor){
+        $cadena ="INSERT INTO vet_esp(veterinarios,especialidades)  
+        values ($id_v->v_id,'$valor')";
+        $inseres->inseruser($cadena);}}}
+        
         echo "<div  class='rabbit'></div><div class='clouds'></div>";
-        header("refresh:3;../../index.php");
+        header("refresh:3;../vetitabla.php");
 
-    ?>
+    
+?>
 </body>
 </html>

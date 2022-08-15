@@ -9,12 +9,13 @@ class login{
     public function verificaLogin($correo, $contra){
         try{
             $pase = null;
-            $rol = 'u';
+
             $cc = new database("empresa", "root", "root");
             $objetoPDO = $cc->getPDO();
 
             $query = "select correo, contrasena, rol from persona where correo = '$correo'";
             $consulta = $objetoPDO->query($query);
+
 
             while($renglon = $consulta->fetch(PDO::FETCH_ASSOC)){
                 if(password_verify($contra,$renglon['contrasena'])){
@@ -24,14 +25,20 @@ class login{
             echo "<div  class='rabbit'></div><div class='clouds'></div>";
             if($pase==true){
                 session_start();
+                $usrol = new select();
+                $cadena = "select rol from persona where correo = '$correo'";
+                $busca = $usrol->seleccionar($cadena);
+                foreach ($busca as $item){
+                    $rol = $item->rol;
+                }
                 $_SESSION["correo"] = $correo;
                 $_SESSION["rol"] = $rol;
                 switch ($rol){
                     case 'u':
                         header("refresh:2; ../../views/cliente.php");
                         break;
-                    case 'v':
-                        echo "<h1>Prueba Vet</h1>";
+                    case 'v' || 'd':
+                        header("refresh:2; ../../views/veteridueno.php");
                         break;
                 }
             }else{

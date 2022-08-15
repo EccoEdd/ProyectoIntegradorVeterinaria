@@ -14,13 +14,9 @@
 <?php
 use Vet\query\select;
 require_once("../vendor/autoload.php");
-
 session_start();
 if(isset($_SESSION['correo'])){
-switch ($_SESSION['rol']){
-case 'd' || 'v':
-        if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
-
+if ($_SESSION['rol'] == 'd'){
 ?>
 <!--Nab-->
 <header>
@@ -54,7 +50,7 @@ case 'd' || 'v':
 </header>
 <!--Contenidos-->
 <div class="container text-center">
-    <h1 class="bg-primary rounded-pill blanco">Historial Medico por Sucursal</h1>
+    <h1 class="bg-primary rounded-pill blanco">Cantidad de servicios hechos por sucursal</h1>
 </div>
 
 <div class="container">
@@ -62,13 +58,14 @@ case 'd' || 'v':
         <div class="col-12">
             <form action="#" method="post">
                 <?php
+                //por sucursal
                 $query = new select();
                 $cadena = "select scrl.num_s,scrl.sucursal from sucursal as scrl";
                 $reg = $query->seleccionar($cadena);
 
                 echo "<div class='mb-3'>
                     <label class='control-label'><h5>Sucursal</h5></label>
-                    <select name='usr' class='form-select'>
+                    <select name='sucu' class='form-select'>
                     ";
                 foreach ($reg as $value) {
                     echo"<option value='".$value->num_s."'>".$value->sucursal."</option>";
@@ -76,69 +73,71 @@ case 'd' || 'v':
                 echo "</select>
                     </div>";
                 ?>
-                <div class="row">
-                    <div class="col-6">
-                        <label for="date1">Entre fecha</label>
-                        <input type="date" name="date1" class="form-control" required>
-                    </div>
-                    <div class="col-6">
-                        <label for="dat2">Y Fecha</label>
-                        <input type="date" name="date2" class="form-control" required>
-                    </div>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-success col-12">Buscar Consultas de este Medico</button>
-            </form>
+                <input type="text" class="visually-hidden" value="sucursal" name="tipo">
         </div>
+        <div class="col-6">
+            <?php
+            //por servicio
+            $query = new select();
+            $cadena = "select s_id, servicio from servicios";
+            $reg = $query->seleccionar($cadena);
+
+            echo "<div class='mb-3'>
+                    <label class='control-label'><h5>Servicio</h5></label>
+                    <select name='serv' class='form-select'>
+                    ";
+            foreach ($reg as $value) {
+                echo"<option value='".$value->s_id."'>".$value->servicio."</option>";
+            }
+            echo "</select>
+                    </div>";
+            ?>
+            <input type="text" class="visually-hidden" value="sucursal" name="tipo">
+        </div>
+        <div class="col-3" >
+                <label for="bus"><h5>Entre Fecha</h5></label>
+                <input type="date" class="form-control" name="date1">
+                <br>
+        </div>
+        <div class="col-3" >
+            <label for="bus"><h5>Y Fecha</h5></label>
+            <input type="date" class="form-control" name="date2">
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-success col-12">Buscar</button>
+        </div>
+        </form>
     </div>
 </div>
 <br>
 <div class="container">
     <?php
-    if ($_POST){
+    if ($_POST) {
         extract($_POST);
-        $query = new select();
-        $cadena2 = "
-        select cons.sucursal,cnlt.dueno,vet.veterinario,cnlt.mascota,cons.consulta,cons.servicios,cons.fecha_consulta  from  
-(select mscts.m_id,concat('Dueno:',concat(prsn_cl.nombre,' ',prsn_cl.apellido),'  Telefono:',cntc.numero) as dueno
-,concat('Mascota:',mscts.nombre,'   Raza:',mscts.raza,'   Sexo:',mscts.sexo,'  Especie:',espcs.especie) as mascota 
-from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
-on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie inner join contacto as cntc on cntc.persona=prsn_cl.p_id) as cnlt
-inner join (select cnslts.mascota,cnslts.veterinario,cnslts.fecha_consulta,concat('Peso:',cnslts.peso,'   Temperatura:',cnslts.temperatura,'   Sintomas:',cnslts.sintomas,
-'   Operado:',cnslts.operado,'   Medicamentos:',cnslts.medicamentos,' Prescripcion:',cnslts.prescripcion) as consulta, scrsl.sucursal, group_concat(serv.servicio) as servicios
-from consultas as cnslts inner join recetas as rcts on rcts.consulta=cnslts.cons_id inner join con_serv on con_serv.consulta=cnslts.cons_id inner join sucursal as
-scrsl on cnslts.sucursal=scrsl.num_s inner join servicios as serv on serv.s_id=con_serv.servicio where scrsl.num_s='$usr' group by consulta) 
-as cons on cons.mascota=cnlt.m_id inner join (select vet.v_id,concat('Veterinario:',concat(prsn.nombre,' ',prsn.apellido),'   Cedula:',vet.cedula) 
-as veterinario from persona as prsn inner join veterinarios as vet on vet.persona=prsn.p_id) as vet on vet.v_id=cons.veterinario
-where cons.fecha_consulta between '$date1' and '$date2' order by cons.fecha_consulta desc;";
-        $dato = $query->seleccionar($cadena2);
-        foreach ($dato as $item){
-            echo"
-                <div class='container'>
-                <div class='card'>
-                    <div class='card-header bg-info text-center'>
-                        <h3>Receta Médica</h3>
-                    </div>
-                    <div class='card-body'>
-                      <ul class='list-group list-group-flush'>
-                        <li class='list-group-item'>$item->sucursal</li>
-                        <li class='list-group-item'>$item->dueno</li>
-                        <li class='list-group-item'>$item->veterinario</li>
-                        <li class='list-group-item'>$item->mascota</li>
-                        <li class='list-group-item'>$item->consulta</li>
-                        <li class='list-group-item'>Servicios: $item->servicios</li>
-                        <li class='list-group-item'>$item->fecha_consulta</li>
-                      </ul>
-                    </div>
-                    <div class='card-footer'>
-                    </div>
-                </div><div class='progress'>
-                    <div class='progress-bar progress-bar-striped progress-bar-animated bg-danger' 
-                    aria-label='Animated striped example'  style='width: 100%'>
-                </div>
-                </div><br>
+            $query = new select();
+            $cadena2 = "select scrsl.sucursal,
+count(case when con_serv.servicio='$serv' then 1 else null end) as servicio
+from consultas as cnslts inner join con_serv on con_serv.consulta=cnslts.cons_id inner join servicios as srvc on srvc.s_id=con_serv.servicio inner join
+sucursal as scrsl on scrsl.num_s=cnslts.sucursal where scrsl.num_s='$sucu' and cnslts.fecha_consulta between '$date1' and '$date2'
+group by scrsl.sucursal";
+            $dato = $query->seleccionar($cadena2);
+            echo "
+                <table class='table table-hover'>
+                <thead class'table-dark'>
+                <tr>
+                <th>Sucursal</th>
+                <th>Servicio</th>
+                </thead>
+                </tbody>
             ";
-        }
+            foreach ($dato as $registro) {
+                echo "<tr>";
+                echo "<td> $registro->sucursal</td>";
+                echo "<td> $registro->servicio</td>";
+                echo "</tr>";
+            }
+            echo "</tbody>
+                </table>";
     }
     ?>
 </div>
@@ -179,17 +178,12 @@ where cons.fecha_consulta between '$date1' and '$date2' order by cons.fecha_cons
 </html>
 <?php
 }
-else{
+elseif($_SESSION['rol'] == 'u'){
     header("refresh:0; scripts/redirectuser.php");
-}
-break;
-case 'u':
-    header("refresh:0; scripts/redirectuser.php");
-    break;
-}
-
-}
-else{
+}elseif ($_SESSION['rol'] == 'v'){
+    header("refresh:0; scripts/redirectvet.php");
+    }
+}else{
     header("refresh:0; ../index.php");
 }
 ?>
