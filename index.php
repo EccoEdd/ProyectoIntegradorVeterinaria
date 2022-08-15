@@ -286,7 +286,7 @@ else{
         case 'u':
             header("refresh:0;views/scripts/redirectuser.php");
             break;
-        case 'v' && 'd':
+        case 'v' || 'd':
             header("refresh:0;views/scripts/redirectvet.php");
             break;
     }

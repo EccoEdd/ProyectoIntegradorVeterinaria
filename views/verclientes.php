@@ -15,10 +15,11 @@
 use Vet\query\select;
 require_once("../vendor/autoload.php");
 
-//session_start();
-//if(isset($_SESSION['correo'])){
-//switch ($_SESSION['rol']){
-//case 'd' && 'v':
+session_start();
+if(isset($_SESSION['correo'])){
+switch ($_SESSION['rol']){
+case 'd' || 'v':
+    if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
 ?>
 <!--Nab-->
 <header>
@@ -35,7 +36,7 @@ require_once("../vendor/autoload.php");
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item sm-12 lg-6">
                             <button type="button" class="btn col-8">
-                                <a class="nav-link" href="veridueno.php">Regresar a principal</a>
+                                <a class="nav-link" href="veteridueno.php">Regresar a principal</a>
                             </button>
                         </li>
                         <li class="nav-item sm-12 lg-6">
@@ -52,7 +53,7 @@ require_once("../vendor/autoload.php");
 </header>
 <!--Contenidos-->
 <div class="container text-center">
-    <h1 class="bg-primary rounded-pill blanco">Ver Clientes</h1>
+    <h1 class="bg-primary rounded-pill blanco">Clientes</h1>
 </div>
 
 <div class="container">
@@ -193,12 +194,19 @@ inner join contacto as cntc on cntc.persona=prsn.p_id where prsn.nombre like '$n
 </body>
 </html>
 <?php
-//break;
-//case 'u':
-//    header("refresh:0;views/scripts/redirectuser.php");
-//    break;
-//}
-//} else {
-//    header("refresh:0; scripts/redirectindex.php");
-//}
+}
+
+else{
+    header("refresh:0; scripts/redirectuser.php");
+}
+break;
+case 'u':
+    header("refresh:0; scripts/redirectuser.php");
+    break;
+}
+
+}
+else{
+    header("refresh:0; ../index.php");
+}
 ?>

@@ -12,14 +12,15 @@
 </head>
 <body>
     <?php
-    use Vet\query\login;
-    require("../../vendor/autoload.php");
+    use Vet\query\inseruser;
+    require_once("../../vendor/autoload.php");
 
-    $usuario1 = new login();
-
+    $insertp = new inseruser();
     extract($_POST);
-
-    $usuario1->verificaLogin("$correo", "$contrasena");
+        $nu = "INSERT INTO especialidad(especialidad) values ('$nom')";
+        $insertp->inseruser($nu);
+        echo "<div  class='rabbit'></div><div class='clouds'></div>";
+        header("refresh:3;../veteridueno.php");
     ?>
 </body>
 </html>

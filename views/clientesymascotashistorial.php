@@ -15,10 +15,12 @@
 use Vet\query\select;
 require_once("../vendor/autoload.php");
 
-//session_start();
-//if(isset($_SESSION['correo'])){
-//switch ($_SESSION['rol']){
-//case 'd' && 'v':
+session_start();
+if(isset($_SESSION['correo'])){
+switch ($_SESSION['rol']){
+case 'd' || 'v':
+if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
+
 ?>
 <!--Nab-->
 <header>
@@ -35,7 +37,7 @@ require_once("../vendor/autoload.php");
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item sm-12 lg-6">
                             <button type="button" class="btn col-8">
-                                <a class="nav-link" href="veridueno.php">Regresar a principal</a>
+                                <a class="nav-link" href="veteridueno.php">Regresar a principal</a>
                             </button>
                         </li>
                         <li class="nav-item sm-12 lg-6">
@@ -82,7 +84,7 @@ inner join veterinarios as vet on vet.persona=prsn.p_id) as vet on vet.v_id=cons
 where cnlt.m_id='$mas'  order by cons.fecha_consulta desc;";
         $dato = $query->seleccionar($cadena2);
         foreach ($dato as $item){
-            if($item->fecha_consulta == null){
+            if($item->sucursal == null){
                 echo "<div class='alert alert-danger border-danger rounded-pill text-center'><h2>No hay datos aun</h2></div>";
             }else{
             echo"
@@ -151,12 +153,18 @@ where cnlt.m_id='$mas'  order by cons.fecha_consulta desc;";
 </body>
 </html>
 <?php
-//break;
-//case 'u':
-//    header("refresh:0;views/scripts/redirectuser.php");
-//    break;
-//}
-//} else {
-//    header("refresh:0; scripts/redirectindex.php");
-//}
+}
+    else{
+        header("refresh:0; scripts/redirectuser.php");
+    }
+break;
+    case 'u':
+        header("refresh:0; scripts/redirectuser.php");
+        break;
+    }
+
+}
+else{
+        header("refresh:0; ../index.php");
+}
 ?>

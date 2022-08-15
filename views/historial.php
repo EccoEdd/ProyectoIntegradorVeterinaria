@@ -66,9 +66,18 @@ case 'u':
 
 <div class="container">
     <form action="#" method="post">
-        <label>Fecha Desde:</label>
-        <input type="date" class="form-control" placeholder="Start" required name="date1"/>
-        <button type="submit" class="btn btn-info col-12 blanc">Buscar</button>
+        <div class="row">
+            <div class="col-6">
+                <label>Fecha Desde:</label>
+                <input type="date" class="form-control" placeholder="Start" required name="date1"/>
+            </div>
+            <div class="col-6">
+                <label>Hasta</label>
+                <input type="date" class="form-control" placeholder="end" required name="date2"/>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-info col-12 blanco">Buscar</button>
     </form>
 </div>
 <br>
@@ -87,7 +96,7 @@ from consultas as cnslts inner join con_serv on con_serv.consulta=cnslts.cons_id
 scrsl on cnslts.sucursal=scrsl.num_s inner join servicios as serv on serv.s_id=con_serv.servicio group by consulta) as cons on cons.mascota=cnlt.m_id inner join 
 (select vet.v_id,concat('Veterinario:',concat(prsn.nombre,' ',prsn.apellido),'   Cedula:',vet.cedula) as veterinario from persona as prsn 
 inner join veterinarios as vet on vet.persona=prsn.p_id) as vet on vet.v_id=cons.veterinario 
-where cnlt.m_id='$h' && cons.fecha_consulta = '$date1'  order by cons.fecha_consulta desc;";
+where cnlt.m_id='$h' && cons.fecha_consulta between '$date1' and '$date2' order by cons.fecha_consulta desc;";
         $dato = $query->seleccionar($cadena2);
         foreach ($dato as $item){
             if ($item->fecha_con == null){

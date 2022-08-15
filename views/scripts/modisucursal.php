@@ -11,15 +11,21 @@
     <title>RegVet</title>
 </head>
 <body>
-    <?php
-    use Vet\query\login;
-    require("../../vendor/autoload.php");
-
-    $usuario1 = new login();
+<?php
+    use Vet\query\inseruser;
+    use Vet\query\select;
+    require_once("../../vendor/autoload.php");
+    $insertu = new inseruser();
 
     extract($_POST);
+        $nu = "UPDATE sucursal 
+        SET condicion='$condi'
+        where sucursal.num_s=$id";
+        $insertu->inseruser($nu);
+        echo "<div  class='rabbit'></div><div class='clouds'></div>";
+        header("refresh:3;../sucursales.php");
 
-    $usuario1->verificaLogin("$correo", "$contrasena");
-    ?>
+    
+?>
 </body>
 </html>
