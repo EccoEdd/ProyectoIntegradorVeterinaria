@@ -20,7 +20,7 @@ session_start();
 if(isset($_SESSION['correo'])){
 switch ($_SESSION['rol']){
 case 'd' || 'v':
-if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
+if ((($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')) && ($_SESSION['condicion'] == 'activo')){
 
 ?>
 <!--Nab-->
@@ -99,12 +99,14 @@ if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
                         echo "</select>";
                     }
                 ?>
-          </div>      
+          </div>
+        <!--Solo medico-->
         <div class="col-md-6">
             <?php
             $query = new select();
+            $vet = $_SESSION['correo'];
             $cadena = "SELECT vet.v_id,concat(prsn.nombre,' ',prsn.apellido) as veterinario from 
-            veterinarios as vet inner join persona as prsn on prsn.p_id=vet.persona order by veterinario asc";
+            veterinarios as vet inner join persona as prsn on prsn.p_id=vet.persona where prsn.correo = '$vet' order by veterinario asc";
             $reg = $query->seleccionar($cadena);
 
             echo "<div class='col-mb-6>
@@ -119,6 +121,8 @@ if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
             echo "</select> </div>";
             ?>
         </div><br>
+        <!--Solo Medico fin-->
+
         <div class="col-md-6">
             <label for="inputAddress2" class="form-label">Sucursal</label>
             <?php
@@ -186,7 +190,7 @@ if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
             <label for="inputAddress2" class="form-label">Monto Total</label>
             <input type="text" class="form-control" name="mont">
         </div>
-        <div class="offset-10 col-md-4">
+        <div class="offset-8 col-md-4">
         <a href="veteridueno.php" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Guardar</button>
         </div>

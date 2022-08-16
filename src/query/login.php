@@ -9,7 +9,6 @@ class login{
     public function verificaLogin($correo, $contra){
         try{
             $pase = null;
-
             $cc = new database("empresa", "root", "root");
             $objetoPDO = $cc->getPDO();
 
@@ -24,6 +23,7 @@ class login{
             }
             echo "<div  class='rabbit'></div><div class='clouds'></div>";
             if($pase==true){
+
                 session_start();
                 $usrol = new select();
                 $cadena = "select rol from persona where correo = '$correo'";
@@ -31,6 +31,7 @@ class login{
                 foreach ($busca as $item){
                     $rol = $item->rol;
                 }
+
                 $_SESSION["correo"] = $correo;
                 $_SESSION["rol"] = $rol;
                 switch ($rol){
@@ -38,6 +39,14 @@ class login{
                         header("refresh:2; ../../views/cliente.php");
                         break;
                     case 'v' || 'd':
+                        $vst = new select();
+                        $cadena = "select condicion from veterinarios as v join persona as p on p.p_id = v.persona
+                                    where p.correo = '$correo'";
+                        $vst = $usrol->seleccionar($cadena);
+                        foreach ($vst as $item){
+                            $status = $item->condicion;
+                        }
+                        $_SESSION["condicion"] = $status;
                         header("refresh:2; ../../views/veteridueno.php");
                         break;
                 }
