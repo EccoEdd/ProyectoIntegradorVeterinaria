@@ -18,7 +18,7 @@
     $insertp = new inseruser();
     $insertu = new inseruser();
     $inseres = new inseruser();
-    
+    $checkbox=1;
     extract($_POST);
     $password = password_hash($_POST['contra'], PASSWORD_DEFAULT);
         $nper = "INSERT into persona(nombre, apellido, correo, contrasena,rol)
@@ -38,12 +38,13 @@
         $queryd = new Select();
         $cadenad = "SELECT veterinarios.v_id from veterinarios where veterinarios.cedula=$cedu";
         $tablad = $queryd->seleccionar($cadenad);
+        if($checkbox!=1){
         foreach($tablad as $id_v){
         $checkbox=$_POST['checkbox'];
         foreach($checkbox as $valor){
         $cadena ="INSERT INTO vet_esp(veterinarios,especialidades)  
         values ($id_v->v_id,'$valor')";
-        $inseres->inseruser($cadena);}}
+        $inseres->inseruser($cadena);}}}
         
         echo "<div  class='rabbit'></div><div class='clouds'></div>";
         header("refresh:3;../veteridueno.php");

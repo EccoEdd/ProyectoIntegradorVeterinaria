@@ -39,6 +39,9 @@ case 'd' || 'v':
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item sm-12 lg-6">
                     <li class="nav-item dropdown">
+                        <?php
+                        if ($_SESSION['condicion'] == 'activo'){
+                        ?>
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                        Opciones
                       </a>
@@ -65,6 +68,9 @@ case 'd' || 'v':
                     <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#agregarmascota">
                       <a class="nav-link" href="consultasfor.php">Consulta Medica</a>
                     </button>
+                        <?php
+                        }
+                        ?>
                   </li>
                     <li class="nav-item sm-12 lg-6">
                         <button type="submit" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#perfil">
@@ -336,6 +342,17 @@ case 'd' || 'v':
 
       </div>
   </div>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" aria-label="Animated striped example"  style="width: 100%"></div>
+</div>
+
+<!--Conejo-->
+<footer>
+    <div class="container-fluid bodyrabbit">
+        <div  class="rabbit"></div>
+        <div class="clouds"></div>
+    </div>
+</footer>
 </body>
 </html>
 <?php
