@@ -1,5 +1,5 @@
 <?php
-namespace  Vet\Query;
+namespace  Vet\query;
 
 use PDO;
 use Vet\data\database;

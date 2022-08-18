@@ -21,8 +21,8 @@
     $fecha=date("Y-m-d");
     $hora=date("H:i:s");
     extract($_POST);
-        $nper = "INSERT into consultas(veterinario, mascota, fecha_consulta, hora_consulta,peso,temperatura, sintomas,operado, descripcion, sucursal, tipo_pago, monto_total, medicamentos, prescripcion)
-                values('$veti','$mas','$fecha','$hora','$peso','$tem','$sinto','$op','$des','$sucu','$tipp','$mont','$med','$pres')";
+        $nper = "INSERT into consultas(veterinario, mascota, fecha_consulta, hora_consulta,peso,temperatura, sintomas,operado, sucursal, tipo_pago, monto_total, medicamentos, prescripcion)
+                values('$veti','$mas','$fecha','$hora','$peso','$tem','$sinto','$op','$sucu','$tipp','$mont','$med','$pres')";
 
         $insertp->inseruser($nper);
 

@@ -125,7 +125,7 @@ where cnlt.m_id='$h' && cons.fecha_consulta between '$date1' and '$date2' order 
         </div><div class='progress'>
             <div class='progress-bar progress-bar-striped progress-bar-animated bg-info' aria-label='Animated striped example'  style='width: 100%''>
         </div>
-        </div><br>
+        </div></div><br>
 ";}
         }
     }

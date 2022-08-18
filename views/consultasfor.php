@@ -127,7 +127,7 @@ if ((($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')) && ($_SESSION['condicio
             <label for="inputAddress2" class="form-label">Sucursal</label>
             <?php
             $queryd = new select();
-            $cadena = "SELECT * from sucursal";
+            $cadena = "SELECT * from sucursal where condicion = 'activa'";
             $reg = $queryd->seleccionar($cadena);
 
             echo "<select name='sucu' class='form-select'>";
@@ -153,12 +153,12 @@ if ((($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')) && ($_SESSION['condicio
         </div>
         <div class="col-md-2">
             <label for="inputAddress2" class="form-label">Operado</label><br>
-            <input type="radio" class="form-check-input" name="op" value="Si">Si
-            <input type="radio" class="form-check-input" name="op" value="No">No
+            <input type="radio" class="form-check-input" name="op" value="Si" required>Si
+            <input type="radio" class="form-check-input" name="op" value="No" required>No
         </div>
         <div class="col-md-6">
-            <label for="inputAddress2" class="form-label">Descripcion</label>
-            <input type="text" class="form-control" name="des">
+            <!--<label for="inputAddress2" class="form-label">Descripcion</label>-->
+            <!--<input type="text" class="form-control" name="des">-->
         </div>
         <div class="col-md-6">
             <label for="inputAddress2" class="form-label">Medicamentos</label>
