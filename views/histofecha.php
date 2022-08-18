@@ -82,17 +82,19 @@ if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
     $date2 = '';
     extract($_POST);
     $query = new select();
-    $cadena2 = "select scrsl.sucursal,concat('Dueno:',concat(prsn_cl.nombre,' ',prsn_cl.apellido),'  Telefono:',cntc.numero) as dueno,
-vet.veterinario,concat('Mascota:',mscts.nombre,'   Raza:',mscts.raza,'   Sexo:',mscts.sexo,'  Especie:',espcs.especie) as mascota,concat('Peso:',cnslts.peso,'   Temperatura:',cnslts.temperatura,'   Sintomas:',cnslts.sintomas,
-'   Operado:',cnslts.operado,'   Medicamentos:',cnslts.medicamentos,' Prescripcion:',cnslts.prescripcion) as consulta,group_concat(serv.servicio) as servicios,cnslts.fecha_consulta
-from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
-on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie inner join contacto as cntc on cntc.persona=prsn_cl.p_id inner join consultas as
-cnslts on cnslts.mascota=mscts.m_id inner join sucursal as scrsl on scrsl.num_s=cnslts.sucursal inner join con_serv on con_serv.consulta=cnslts.cons_id inner join servicios
-as serv on serv.s_id=con_serv.servicio inner join 
-(select vet.v_id,concat('Veterinario:',concat(perusona.nombre,' ',perusona.apellido),'   Cedula:',vet.cedula) as veterinario
-from persona as perusona inner join veterinarios as vet on vet.persona=perusona.p_id) as vet on cnslts.veterinario=vet.v_id
-where cnslts.fecha_consulta between '$date1' and '$date2'
-group by mscts.nombre order by cnslts.fecha_consulta desc";
+    $cadena2 = "select cons.sucursal,cnlt.dueno,vet.veterinario,cnlt.mascota,cons.consulta,cons.servicio,cons.fecha_consulta  from  
+    (select mscts.m_id,concat('Dueno: ',concat(prsn_cl.nombre,' ',prsn_cl.apellido),'  Telefono: ',cntc.numero) as dueno
+    ,concat('Mascota: ',mscts.nombre,'   Raza: ',mscts.raza,'   Sexo: ',mscts.sexo,'  Especie: ',espcs.especie) as mascota 
+    from persona as prsn_cl inner join usuarios as usr_cl on prsn_cl.p_id=usr_cl.persona inner join mascotas as mscts 
+    on usr_cl.u_id=mscts.usuario inner join especies as espcs on espcs.e_id=mscts.especie inner join contacto as cntc on cntc.persona=prsn_cl.p_id) as cnlt
+    inner join (select cnslts.mascota,cnslts.veterinario,cnslts.fecha_consulta,concat('Peso: ',cnslts.peso,'   Temperatura: ',cnslts.temperatura,'   Sintomas: ',cnslts.sintomas,
+    '   Operado: ',cnslts.operado,'   Medicamentos: ',cnslts.medicamentos,'  Prescripcion: ',cnslts.prescripcion) as consulta,group_concat(serv.servicio) as servicio 
+    , scrsl.sucursal
+    from consultas as cnslts inner join con_serv on con_serv.consulta=cnslts.cons_id inner join sucursal as
+    scrsl on cnslts.sucursal=scrsl.num_s inner join servicios as serv on serv.s_id=con_serv.servicio group by consulta) as cons on cons.mascota=cnlt.m_id inner join 
+    (select vet.v_id,concat('Veterinario:',concat(prsn.nombre,' ',prsn.apellido),'   Cedula:',vet.cedula) as veterinario from persona as prsn 
+    inner join veterinarios as vet on vet.persona=prsn.p_id) as vet on vet.v_id=cons.veterinario 
+    where cons.fecha_consulta between '$date1' and '$date2' order by cons.fecha_consulta desc";
     $dato = $query->seleccionar($cadena2);
     foreach ($dato as $item){
         if($item->sucursal == null){
@@ -120,7 +122,7 @@ group by mscts.nombre order by cnslts.fecha_consulta desc";
                 </div><div class='progress'>
                     <div class='progress-bar progress-bar-striped progress-bar-animated bg-danger' 
                     aria-label='Animated striped example'  style='width: 100%'>
-                </div>
+                </div></div>
                 </div><br>
             ";}
     }

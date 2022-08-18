@@ -110,7 +110,7 @@ where cnlt.m_id='$mas'  order by cons.fecha_consulta desc;";
                     <div class='progress-bar progress-bar-striped progress-bar-animated bg-danger' 
                     aria-label='Animated striped example'  style='width: 100%'>
                 </div>
-                </div><br>
+                </div></div><br>
             ";}
         }
     ?>
