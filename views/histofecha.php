@@ -113,7 +113,7 @@ if (($_SESSION['rol']=='d') || ($_SESSION['rol']=='v')){
                         <li class='list-group-item'>$item->veterinario</li>
                         <li class='list-group-item'>$item->mascota</li>
                         <li class='list-group-item'>$item->consulta</li>
-                        <li class='list-group-item'>Serivicios: $item->servicios</li>
+                        <li class='list-group-item'>Serivicios: $item->servicio</li>
                         <li class='list-group-item'>$item->fecha_consulta</li>
                       </ul>
                     </div>
