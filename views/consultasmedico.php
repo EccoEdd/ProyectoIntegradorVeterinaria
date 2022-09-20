@@ -128,7 +128,7 @@ case 'd' || 'v':
                         <li class='list-group-item'>$item->veterinario</li>
                         <li class='list-group-item'>$item->mascota</li>
                         <li class='list-group-item'>$item->consulta</li>
-                        <li class='list-group-item'>Servicios: $item->servicios</li>
+                        <li class='list-group-item'>Servicios: $item->servicio</li>
                         <li class='list-group-item'>$item->fecha_consulta</li>
                       </ul>
                     </div>
